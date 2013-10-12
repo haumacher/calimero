@@ -422,7 +422,7 @@ public class Discoverer
 					: (InetSocketAddress) s.getLocalSocketAddress()));
 			s.send(new DatagramPacket(buf, buf.length, server));
 			final ReceiverLoop looper = new ReceiverLoop(s, 256, timeout * 1000,
-				server);
+				server, host);
 			looper.loop();
 			if (looper.thrown != null)
 				throw looper.thrown;
@@ -486,7 +486,7 @@ public class Discoverer
 			s.send(new DatagramPacket(buf, buf.length, SYSTEM_SETUP_MULTICAST, SEARCH_PORT));
 			synchronized (receivers) {
 				final ReceiverLoop l = startReceiver(s, timeout,
-						nifName + localAddr.getHostAddress());
+						nifName + localAddr.getHostAddress(), localAddr);
 				receivers.add(l);
 				return l;
 			}
@@ -554,10 +554,10 @@ public class Discoverer
 	}
 
 	private ReceiverLoop startReceiver(final MulticastSocket socket, final int timeout,
-		final String name)
+		final String name, InetAddress localAddr)
 	{
 		final ReceiverLoop looper = new ReceiverLoop(socket, 256, timeout * 1000, name + ":"
-				+ socket.getLocalPort());
+				+ socket.getLocalPort(), localAddr);
 		looper.t = new Thread(looper, "Discoverer " + name);
 		looper.t.setDaemon(true);
 		looper.t.start();
@@ -574,13 +574,15 @@ public class Discoverer
 		private DescriptionResponse res;
 		private KNXInvalidResponseException thrown;
 		private final String id;
+		private final InetAddress _localAddr;
 		
 		// use for search looper
 		// timeout in milliseconds
 		ReceiverLoop(final DatagramSocket socket, final int receiveBufferSize,
-			final int timeout, final String name)
+			final int timeout, final String name, InetAddress localAddr)
 		{
 			super(socket, true, receiveBufferSize, 0, timeout);
+			_localAddr = localAddr;
 			search = true;
 			server = null;
 			id = name;
@@ -589,9 +591,10 @@ public class Discoverer
 		// use for description looper
 		// timeout in milliseconds
 		ReceiverLoop(final DatagramSocket socket, final int receiveBufferSize, final int timeout,
-			final InetSocketAddress queriedServer)
+			final InetSocketAddress queriedServer, InetAddress localAddr)
 		{
 			super(socket, true, receiveBufferSize, 0, timeout);
+			_localAddr = localAddr;
 			search = false;
 			server = queriedServer;
 			id = "" + socket.getLocalSocketAddress();
@@ -634,7 +637,7 @@ public class Discoverer
 					// if our search is still running, add response
 					synchronized (receivers) {
 						if (receivers.contains(this))
-							responses.add(new SearchResponse(data, offset + h.getStructLength()));
+							responses.add(new SearchResponse(_localAddr, data, offset + h.getStructLength()));
 					}
 				}
 				else if (!search && h.getServiceType() == KNXnetIPHeader.DESCRIPTION_RES) {

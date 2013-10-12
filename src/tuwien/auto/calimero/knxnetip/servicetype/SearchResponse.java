@@ -20,6 +20,7 @@
 package tuwien.auto.calimero.knxnetip.servicetype;
 
 import java.io.ByteArrayOutputStream;
+import java.net.InetAddress;
 
 import tuwien.auto.calimero.exception.KNXFormatException;
 import tuwien.auto.calimero.knxnetip.util.DeviceDIB;
@@ -42,6 +43,7 @@ import tuwien.auto.calimero.knxnetip.util.ServiceFamiliesDIB;
  */
 public class SearchResponse extends ServiceType
 {
+	private final InetAddress _localAddr;
 	private final HPAI endpt;
 	private final DescriptionResponse desc;
 
@@ -49,13 +51,15 @@ public class SearchResponse extends ServiceType
 	 * Creates a new search response out of a byte array.
 	 * <p>
 	 * 
+	 * @param localAddr See {@link #getLocalAddress()}.
 	 * @param data byte array containing a search response structure
 	 * @param offset start offset of response in <code>data</code>
 	 * @throws KNXFormatException if no search response was found or invalid structure
 	 */
-	public SearchResponse(final byte[] data, final int offset) throws KNXFormatException
+	public SearchResponse(InetAddress localAddr, final byte[] data, final int offset) throws KNXFormatException
 	{
 		super(KNXnetIPHeader.SEARCH_RES);
+		_localAddr = localAddr;
 		endpt = new HPAI(data, offset);
 		desc = new DescriptionResponse(data, offset + endpt.getStructLength());
 	}
@@ -65,16 +69,25 @@ public class SearchResponse extends ServiceType
 	 * information.
 	 * <p>
 	 * 
+	 * @param localAddr See {@link #getLocalAddress()}.
 	 * @param ctrlEndpoint discovered control endpoint of the server sending this response
 	 * @param device server device description information
 	 * @param svcFamilies supported service families by the server
 	 */
-	public SearchResponse(final HPAI ctrlEndpoint, final DeviceDIB device,
+	public SearchResponse(InetAddress localAddr, final HPAI ctrlEndpoint, final DeviceDIB device,
 		final ServiceFamiliesDIB svcFamilies)
 	{
 		super(KNXnetIPHeader.SEARCH_RES);
+		_localAddr = localAddr;
 		endpt = ctrlEndpoint;
 		desc = new DescriptionResponse(device, svcFamilies);
+	}
+
+	/**
+	 * The local {@link InetAddress} that was used for communication.
+	 */
+	public InetAddress getLocalAddress() {
+		return _localAddr;
 	}
 
 	/**
