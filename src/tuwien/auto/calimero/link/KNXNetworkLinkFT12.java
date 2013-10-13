@@ -84,7 +84,7 @@ public class KNXNetworkLinkFT12 implements KNXNetworkLink
 			logger.info("link closed");
 			LogManager.getManager().removeLogService(logger.getName());
 		}
-	};
+	}
 
 	private static final int PEI_SWITCH = 0xA9;
 

@@ -97,7 +97,7 @@ public class TransportLayerImpl implements TransportLayer
 				try {
 					AggregatorProxy ap = null;
 					synchronized (proxies) {
-						ap = (AggregatorProxy) proxies.get(f.getSource());
+						ap = proxies.get(f.getSource());
 					}
 					handleConnected(f, ap);
 				}
@@ -143,12 +143,12 @@ public class TransportLayerImpl implements TransportLayer
 	private volatile boolean detached;
 	private final KNXNetworkLink lnk;
 	private final NetworkLinkListener lnkListener = new NLListener();
-	private final List indications = new LinkedList();
+	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
 	private final EventListeners listeners;
 
 	// holds the mapping of connection destination address to proxy
-	private final Map proxies = new HashMap();
-	private final Map incomingProxies = new HashMap();
+	private final Map<IndividualAddress, AggregatorProxy> proxies = new HashMap<IndividualAddress, AggregatorProxy>();
+	private final Map<IndividualAddress, AggregatorProxy> incomingProxies = new HashMap<IndividualAddress, AggregatorProxy>();
 	private AggregatorProxy active;
 	
 	private volatile int repeated;
@@ -236,7 +236,7 @@ public class TransportLayerImpl implements TransportLayer
 	 */
 	public Destination getDestination(final IndividualAddress remote)
 	{
-		final AggregatorProxy proxy = (AggregatorProxy) proxies.get(remote);
+		final AggregatorProxy proxy = proxies.get(remote);
 		return proxy != null ? proxy.getDestination() : null;
 	}
 	
@@ -248,7 +248,7 @@ public class TransportLayerImpl implements TransportLayer
 	{
 		// method invocation is idempotent
 		synchronized (proxies) {
-			final AggregatorProxy p = (AggregatorProxy) proxies.get(d.getAddress());
+			final AggregatorProxy p = proxies.get(d.getAddress());
 			if (p == null)
 				return;
 			if (p.getDestination() == d) {
@@ -413,7 +413,7 @@ public class TransportLayerImpl implements TransportLayer
 		if (detached)
 			throw new KNXIllegalStateException("TL detached");
 		synchronized (proxies) {
-			final AggregatorProxy p = (AggregatorProxy) proxies.get(d.getAddress());
+			final AggregatorProxy p = proxies.get(d.getAddress());
 			// check identity, too, to prevent destination with only same address
 			if (p == null || p.getDestination() != d)
 				throw new KNXIllegalArgumentException("not the owner of " + d.toString());
@@ -509,7 +509,7 @@ public class TransportLayerImpl implements TransportLayer
 		while (remaining > 0) {
 			try {
 				while (indications.size() > 0)
-					handleConnected((CEMILData) ((FrameEvent) indications.remove(0)).getFrame(),
+					handleConnected((CEMILData) indications.remove(0).getFrame(),
 							active);
 				if (d.getState() == Destination.DISCONNECTED)
 					throw new KNXDisconnectException(d.getAddress()
@@ -533,7 +533,7 @@ public class TransportLayerImpl implements TransportLayer
 		// destroyDestination(), called by d.destroy()
 		AggregatorProxy[] allProxies = new AggregatorProxy[proxies.size()];
 		synchronized (proxies) {
-			allProxies = (AggregatorProxy[]) proxies.values().toArray(allProxies);
+			allProxies = proxies.values().toArray(allProxies);
 		}
 		for (int i = 0; i < allProxies.length; i++) {
 			final AggregatorProxy p = allProxies[i];

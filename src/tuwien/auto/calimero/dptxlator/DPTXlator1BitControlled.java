@@ -166,16 +166,16 @@ public class DPTXlator1BitControlled extends DPTXlator
 	public static final DPT DPT_INVERT_CONTROL = new DPT1BitControlled("2.012",
 			"Invert Controlled", DPTXlatorBoolean.DPT_INVERT);
 
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap(15);
+		types = new HashMap<String, DPT>(15);
 		final Field[] fields = DPTXlator1BitControlled.class.getFields();
 		for (int i = 0; i < fields.length; i++) {
 			try {
 				final Object o = fields[i].get(null);
 				if (o instanceof DPT) {
-					types.put(((DPT) o).getID(), o);
+					types.put(((DPT) o).getID(), (DPT) o);
 				}
 			}
 			catch (final IllegalAccessException e) {}
@@ -317,7 +317,7 @@ public class DPTXlator1BitControlled extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public final Map getSubTypes()
+	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -326,7 +326,7 @@ public class DPTXlator1BitControlled extends DPTXlator
 	 * @return the subtypes of the 3 Bit controlled translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

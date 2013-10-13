@@ -63,7 +63,7 @@ public abstract class ExpiringCache implements Cache
 	 * The map instance itself is not synchronized, synchronization is done using the
 	 * cache object (this).
 	 */
-	protected Map map;
+	protected Map<Object, CacheObject> map;
 	private CacheSweeper sweeper;
 	private final int timeToExpire;
 
@@ -80,11 +80,11 @@ public abstract class ExpiringCache implements Cache
 	{
 		if (timeToExpire > 0) {
 			this.timeToExpire = timeToExpire;
-			map = new LinkedHashMap();
+			map = new LinkedHashMap<Object, CacheObject>();
 		}
 		else {
 			this.timeToExpire = 0;
-			map = new HashMap();
+			map = new HashMap<Object, CacheObject>();
 		}
 	}
 
@@ -104,8 +104,8 @@ public abstract class ExpiringCache implements Cache
 		final long duration = timeToExpire * 1000;
 		CacheObject o = null;
 		synchronized (this) {
-			for (final Iterator i = map.values().iterator(); i.hasNext();) {
-				o = (CacheObject) i.next();
+			for (final Iterator<CacheObject> i = map.values().iterator(); i.hasNext();) {
+				o = i.next();
 				if (now >= o.getTimestamp() + duration) {
 					i.remove();
 					notifyRemoved(o);

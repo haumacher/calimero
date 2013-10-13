@@ -304,12 +304,12 @@ public class CEMILDataEx extends CEMILData implements Cloneable
 	 * 
 	 * @return a List with {@link AddInfo} objects
 	 */
-	public synchronized List getAdditionalInfo()
+	public synchronized List<AddInfo> getAdditionalInfo()
 	{
-		final List l = new ArrayList();
+		final List<AddInfo> l = new ArrayList<AddInfo>();
 		for (int i = 0; i < addInfo.length; ++i)
 			if (addInfo[i] != null)
-				l.add(new AddInfo(i, (byte[]) addInfo[i].clone()));
+				l.add(new AddInfo(i, addInfo[i].clone()));
 		return l;
 	}
 
@@ -325,7 +325,7 @@ public class CEMILDataEx extends CEMILData implements Cloneable
 	public synchronized byte[] getAdditionalInfo(final int infoType)
 	{
 		if (infoType < addInfo.length && addInfo[infoType] != null)
-			return (byte[]) addInfo[infoType].clone();
+			return addInfo[infoType].clone();
 		return null;
 	}
 
@@ -454,7 +454,7 @@ public class CEMILDataEx extends CEMILData implements Cloneable
 			clone.data = getPayload();
 			// the byte arrays with additional info content are used internal only
 			// and don't need to be cloned
-			clone.addInfo = (byte[][]) clone.addInfo.clone();
+			clone.addInfo = clone.addInfo.clone();
 			return clone;
 		}
 		catch (final CloneNotSupportedException ignored) {}
@@ -567,7 +567,7 @@ public class CEMILDataEx extends CEMILData implements Cloneable
 			System.arraycopy(addInfo, 0, newInfo, 0, addInfo.length);
 			addInfo = newInfo;
 		}
-		addInfo[infoType] = (byte[]) info.clone();
+		addInfo[infoType] = info.clone();
 	}
 	
 	private long toLong(final byte[] data)

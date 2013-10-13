@@ -117,7 +117,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 			logger.info("link closed");
 			LogManager.getManager().removeLogService(logger.getName());
 		}
-	};
+	}
 
 	private final int mode;
 	private volatile boolean closed;

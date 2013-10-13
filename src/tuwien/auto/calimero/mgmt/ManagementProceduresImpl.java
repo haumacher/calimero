@@ -73,10 +73,10 @@ public class ManagementProceduresImpl implements ManagementProcedures
 
 	private static final class TLListener implements TransportListener
 	{
-		private final Set devices;
+		private final Set<IndividualAddress> devices;
 		private final boolean routers;
 
-		private TLListener(final Set scanResult, final boolean scanRouters)
+		private TLListener(final Set<IndividualAddress> scanResult, final boolean scanRouters)
 		{
 			devices = scanResult;
 			routers = scanRouters;
@@ -110,7 +110,7 @@ public class ManagementProceduresImpl implements ManagementProcedures
 
 		public void linkClosed(final CloseEvent e)
 		{}
-	};
+	}
 
 	/**
 	 * Creates a new management procedures instance, using the supplied KNX network link.
@@ -319,7 +319,7 @@ public class ManagementProceduresImpl implements ManagementProcedures
 	public IndividualAddress[] scanNetworkRouters() throws KNXTimeoutException,
 		KNXLinkClosedException, InterruptedException
 	{
-		final List addresses = new ArrayList();
+		final List<IndividualAddress> addresses = new ArrayList<IndividualAddress>();
 		for (int address = 0x0000; address <= 0xFF00; address += 0x0100)
 			addresses.add(new IndividualAddress(address));
 		return scanAddresses(addresses, true);
@@ -336,7 +336,7 @@ public class ManagementProceduresImpl implements ManagementProcedures
 		if (line < 0 || line > 0xf)
 			throw new KNXIllegalArgumentException("line out of range [0..0xf]");
 
-		final List addresses = new ArrayList();
+		final List<IndividualAddress> addresses = new ArrayList<IndividualAddress>();
 		for (int device = 0; device <= 0xff; ++device) {
 			final IndividualAddress remote = new IndividualAddress(area, line, device);
 			addresses.add(remote);
@@ -347,7 +347,7 @@ public class ManagementProceduresImpl implements ManagementProcedures
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.mgmt.ManagementProcedures#scanSerialNumbers(int)
 	 */
-	public List scanSerialNumbers(final int medium) throws KNXException, InterruptedException
+	public List<byte[]> scanSerialNumbers(final int medium) throws KNXException, InterruptedException
 	{
 		final Destination dst = mc.createDestination(new IndividualAddress(0, medium, 0xff), true);
 		synchronized (mc) {
@@ -365,7 +365,7 @@ public class ManagementProceduresImpl implements ManagementProcedures
 				dst.destroy();
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	/*
@@ -499,17 +499,17 @@ public class ManagementProceduresImpl implements ManagementProcedures
 			mc.detach();
 	}
 
-	private IndividualAddress[] scanAddresses(final List addresses, final boolean routers)
+	private IndividualAddress[] scanAddresses(final List<IndividualAddress> addresses, final boolean routers)
 		throws KNXTimeoutException, KNXLinkClosedException, InterruptedException
 	{
-		final Set devices = new HashSet();
+		final Set<IndividualAddress> devices = new HashSet<IndividualAddress>();
 		final TransportListener tll = new TLListener(devices, routers);
 		tl.addTransportListener(tll);
 
-		final List destinations = new ArrayList();
+		final List<Destination> destinations = new ArrayList<Destination>();
 		try {
-			for (final Iterator i = addresses.iterator(); i.hasNext();) {
-				final IndividualAddress remote = (IndividualAddress) i.next();
+			for (final Iterator<IndividualAddress> i = addresses.iterator(); i.hasNext();) {
+				final IndividualAddress remote = i.next();
 				final Destination d = tl.createDestination(remote, true);
 				destinations.add(d);
 				tl.connect(d);
@@ -519,12 +519,12 @@ public class ManagementProceduresImpl implements ManagementProcedures
 		}
 		finally {
 			tl.removeTransportListener(tll);
-			for (final Iterator i = destinations.iterator(); i.hasNext();) {
-				final Destination d = (Destination) i.next();
+			for (final Iterator<Destination> i = destinations.iterator(); i.hasNext();) {
+				final Destination d = i.next();
 				tl.destroyDestination(d);
 			}
 		}
-		final IndividualAddress[] array = (IndividualAddress[]) devices
+		final IndividualAddress[] array = devices
 			.toArray(new IndividualAddress[devices.size()]);
 		return array;
 	}

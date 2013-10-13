@@ -48,7 +48,7 @@ public class DefaultXMLWriter implements XMLWriter
 	private BufferedWriter w;
 	private boolean closeWriter;
 	// xml layout stack
-	private Stack layout;
+	private Stack<Tag> layout;
 	// current layout indentation
 	private int indent;
 	// controls indentation for new tags
@@ -74,7 +74,7 @@ public class DefaultXMLWriter implements XMLWriter
 	public DefaultXMLWriter(final Writer w, final boolean close)
 	{
 		setOutput(w, close);
-	};
+	}
 
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.xml.XMLWriter#setOutput(java.io.Writer, boolean)
@@ -109,7 +109,7 @@ public class DefaultXMLWriter implements XMLWriter
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeElement
 	 * (java.lang.String, java.util.List, java.lang.String)
 	 */
-	public void writeElement(final String name, final List att, final String content)
+	public void writeElement(final String name, final List<Attribute> att, final String content)
 		throws KNXMLException
 	{
 		try {
@@ -125,7 +125,7 @@ public class DefaultXMLWriter implements XMLWriter
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeEmptyElement
 	 * (java.lang.String, java.util.List)
 	 */
-	public void writeEmptyElement(final String name, final List att)
+	public void writeEmptyElement(final String name, final List<Attribute> att)
 		throws KNXMLException
 	{
 		try {
@@ -185,7 +185,7 @@ public class DefaultXMLWriter implements XMLWriter
 		if (layout.empty())
 			throw new KNXIllegalStateException("no elements to end");
 		try {
-			((Tag) layout.pop()).endTag();
+			layout.pop().endTag();
 			if (layout.empty())
 				w.flush();
 		}
@@ -201,7 +201,7 @@ public class DefaultXMLWriter implements XMLWriter
 	{
 		try {
 			while (!layout.empty())
-				((Tag) layout.pop()).endTag();
+				layout.pop().endTag();
 			w.flush();
 		}
 		catch (final IOException e) {
@@ -234,7 +234,7 @@ public class DefaultXMLWriter implements XMLWriter
 
 	private void reset()
 	{
-		layout = new Stack();
+		layout = new Stack<Tag>();
 		indent = 0;
 		newTag = false;
 	}
@@ -249,15 +249,15 @@ public class DefaultXMLWriter implements XMLWriter
 		private static final String space = " ";
 		private String name;
 
-		Tag(final String name, final List att, final String cnt, final boolean empty)
+		Tag(final String name, final List<Attribute> att, final String cnt, final boolean empty)
 			throws IOException
 		{
 			if (newTag)
 				w.newLine();
 			indent().write(lt + name);
 			if (att != null)
-				for (final Iterator i = att.iterator(); i.hasNext();) {
-					final Attribute a = (Attribute) i.next();
+				for (final Iterator<Attribute> i = att.iterator(); i.hasNext();) {
+					final Attribute a = i.next();
 					w.write(space + a.getName() + equal + quote
 							+ References.replace(a.getValue(), true) + quote);
 				}

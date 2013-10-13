@@ -53,7 +53,7 @@ public class DPTXlatorString extends DPTXlator
 	public static final DPT DPT_STRING_8859_1 =
 		new DPT("16.001", "ISO-8859-1 string (Latin 1)", "", "");
 
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	// default replacement for unsupported characters
 	private static final short replacement = '?';
@@ -62,7 +62,7 @@ public class DPTXlatorString extends DPTXlator
 	private static final int stringLength = 14;
 
 	static {
-		types = new HashMap(5);
+		types = new HashMap<String, DPT>(5);
 		types.put(DPT_STRING_ASCII.getID(), DPT_STRING_ASCII);
 		types.put(DPT_STRING_8859_1.getID(), DPT_STRING_8859_1);
 	}
@@ -119,7 +119,7 @@ public class DPTXlatorString extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public final Map getSubTypes()
+	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -128,7 +128,7 @@ public class DPTXlatorString extends DPTXlator
 	 * @return the subtypes of the string translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

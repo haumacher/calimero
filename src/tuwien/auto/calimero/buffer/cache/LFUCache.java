@@ -33,7 +33,7 @@ import java.util.TreeMap;
  */
 public class LFUCache extends ExpiringCache
 {
-	private final SortedMap tree;
+	private final SortedMap<CacheObject, CacheObject> tree;
 	private int maxSize;
 	private long hits;
 	private long misses;
@@ -53,7 +53,7 @@ public class LFUCache extends ExpiringCache
 		super(timeToExpire);
 		if (cacheSize > 0)
 			maxSize = cacheSize;
-		tree = new TreeMap(new LFUObjectCompare());
+		tree = new TreeMap<CacheObject, CacheObject>(new LFUObjectCompare());
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class LFUCache extends ExpiringCache
 	 */
 	public synchronized CacheObject get(final Object key)
 	{
-		final CacheObject o = (CacheObject) map.get(key);
+		final CacheObject o = map.get(key);
 		if (o != null) {
 			tree.remove(o);
 			updateAccess(o);
@@ -135,16 +135,16 @@ public class LFUCache extends ExpiringCache
 	{
 		if (maxSize > 0)
 			while (map.size() >= maxSize)
-				remove(((CacheObject) tree.firstKey()).getKey());
+				remove(tree.firstKey().getKey());
 	}
 
-	private static class LFUObjectCompare implements Comparator
+	private static class LFUObjectCompare implements Comparator<CacheObject>
 	{
 		LFUObjectCompare() {}
-		public int compare(final Object o1, final Object o2)
+		public int compare(final CacheObject o1, final CacheObject o2)
 		{
-			final CacheObject cmp1 = (CacheObject) o1;
-			final CacheObject cmp2 = (CacheObject) o2;
+			final CacheObject cmp1 = o1;
+			final CacheObject cmp2 = o2;
 			if (cmp1.getUsage() > cmp2.getUsage())
 				return 1;
 			if (cmp1.getUsage() < cmp2.getUsage())

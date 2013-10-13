@@ -91,7 +91,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 			logger.info("monitor closed");
 			LogManager.getManager().removeLogService(logger.getName());
 		}
-	};
+	}
 
 	private volatile boolean closed;
 	private final KNXnetIPConnection conn;

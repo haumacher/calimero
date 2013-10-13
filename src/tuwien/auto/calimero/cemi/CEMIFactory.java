@@ -27,6 +27,7 @@ import tuwien.auto.calimero.GroupAddress;
 import tuwien.auto.calimero.IndividualAddress;
 import tuwien.auto.calimero.KNXAddress;
 import tuwien.auto.calimero.Priority;
+import tuwien.auto.calimero.cemi.CEMILDataEx.AddInfo;
 import tuwien.auto.calimero.exception.KNXFormatException;
 
 /**
@@ -247,9 +248,9 @@ public final class CEMIFactory
 				new CEMILDataEx(mc, s, d, content, f.getPriority(), repeat, f
 					.isDomainBroadcast(), f.isAckRequested(), f.getHopCount());
 			// copy additional info
-			final List l = f.getAdditionalInfo();
-			for (final Iterator i = l.iterator(); i.hasNext();) {
-				final CEMILDataEx.AddInfo info = (CEMILDataEx.AddInfo) i.next();
+			final List<AddInfo> l = f.getAdditionalInfo();
+			for (final Iterator<AddInfo> i = l.iterator(); i.hasNext();) {
+				final CEMILDataEx.AddInfo info = i.next();
 				copy.addAdditionalInfo(info.getType(), info.getInfo());
 			}
 			return copy;

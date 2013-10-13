@@ -31,6 +31,7 @@ import java.util.List;
 import tuwien.auto.calimero.CloseEvent;
 import tuwien.auto.calimero.FrameEvent;
 import tuwien.auto.calimero.KNXListener;
+import tuwien.auto.calimero.cemi.CEMI;
 import tuwien.auto.calimero.cemi.CEMIDevMgmt;
 import tuwien.auto.calimero.exception.KNXException;
 import tuwien.auto.calimero.exception.KNXIllegalStateException;
@@ -87,9 +88,9 @@ public class LocalDeviceMgmtAdapter implements PropertyAdapter
 
 	private final KNXnetIPConnection conn;
 	private final PropertyAdapterListener listener;
-	private final List frames = Collections.synchronizedList(new LinkedList());
+	private final List<CEMI> frames = Collections.synchronizedList(new LinkedList<CEMI>());
 
-	private final List interfaceObjects = new ArrayList();
+	private final List<Pair> interfaceObjects = new ArrayList<Pair>();
 	private final boolean checkRW;
 
 	private volatile boolean serverReset;
@@ -289,8 +290,8 @@ public class LocalDeviceMgmtAdapter implements PropertyAdapter
 
 	private int getObjectType(final int objIndex) throws KNXRemoteException
 	{
-		for (final Iterator i = interfaceObjects.iterator(); i.hasNext();) {
-			final Pair p = (Pair) i.next();
+		for (final Iterator<Pair> i = interfaceObjects.iterator(); i.hasNext();) {
+			final Pair p = i.next();
 			if (p.oindex == objIndex)
 				return p.otype;
 		}

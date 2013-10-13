@@ -224,7 +224,7 @@ public class CEMILData implements CEMI
 		if (!isValidTPDULength(tpdu))
 			throw new KNXIllegalArgumentException(
 				"maximum TPDU length is 16 in standard frame");
-		data = (byte[]) tpdu.clone();
+		data = tpdu.clone();
 		setPriority(p);
 		setRepeat(repeat);
 		setBroadcast(broadcast);
@@ -287,7 +287,7 @@ public class CEMILData implements CEMI
 	 */
 	public final byte[] getPayload()
 	{
-		return (byte[]) data.clone();
+		return data.clone();
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class DefaultXMLReader implements XMLReader
 	private Reader r;
 	private boolean closeReader;
 	private Element elem;
-	private final Stack openElems = new Stack();
+	private final Stack<String> openElems = new Stack<String>();
 	private int pos;
 	private int line;
 
@@ -97,7 +97,7 @@ public class DefaultXMLReader implements XMLReader
 				continue;
 			final StringBuffer buf = new StringBuffer();
 			if (readCDATASection(str, buf)) {
-				elem = new DefaultElement((String) openElems.peek());
+				elem = new DefaultElement(openElems.peek());
 				elem.setCharacterData(buf.toString());
 				pos = CHAR_DATA;
 				return pos;
@@ -109,7 +109,7 @@ public class DefaultXMLReader implements XMLReader
 				if (!name.substring(1).equals(openElems.peek()))
 					throw new KNXMLException("element end tag does not match start tag",
 						name.substring(1), line);
-				elem = new DefaultElement((String) openElems.pop());
+				elem = new DefaultElement(openElems.pop());
 				pos = END_TAG;
 				return pos;
 			}

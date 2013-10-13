@@ -291,10 +291,10 @@ public final class PropertyTypes
 	 */
 	// private static final int PDT_ESCAPE = 0x3F;
 
-	private static final Map pt;
+	private static final Map<Integer, DPTID> pt;
 
 	static {
-		final Map m = new HashMap(40);
+		final Map<Integer, DPTID> m = new HashMap<Integer, DPTID>(40);
 		m.put(new Integer(PDT_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_SIGNED, "6.010"));
 		m.put(new Integer(PDT_UNSIGNED_CHAR),
 				new DPTID(TranslatorTypes.TYPE_8BIT_UNSIGNED, "5.010"));
@@ -335,7 +335,7 @@ public final class PropertyTypes
 	 * 
 	 * @return property type map
 	 */
-	public static Map getAllPropertyTypes()
+	public static Map<Integer, DPTID> getAllPropertyTypes()
 	{
 		return pt;
 	}
@@ -353,7 +353,7 @@ public final class PropertyTypes
 	 */
 	public static boolean hasTranslator(final int dataType)
 	{
-		final DPTID dpt = (DPTID) pt.get(new Integer(dataType));
+		final DPTID dpt = pt.get(new Integer(dataType));
 		if (dpt != null)
 			try {
 				final MainType t = TranslatorTypes.getMainType(dpt.getMainNumber());
@@ -378,7 +378,7 @@ public final class PropertyTypes
 	 */
 	public static DPTXlator createTranslator(final int dataType) throws KNXException
 	{
-		final DPTID dpt = (DPTID) pt.get(new Integer(dataType));
+		final DPTID dpt = pt.get(new Integer(dataType));
 		if (dpt == null)
 			throw new KNXException("PDT not found");
 		final DPTXlator t = TranslatorTypes.createTranslator(dpt.getMainNumber(),

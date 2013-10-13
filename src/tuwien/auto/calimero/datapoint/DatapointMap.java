@@ -21,6 +21,7 @@ package tuwien.auto.calimero.datapoint;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Map;
 import tuwien.auto.calimero.GroupAddress;
 import tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 import tuwien.auto.calimero.internal.EventListeners;
+import tuwien.auto.calimero.xml.Attribute;
 import tuwien.auto.calimero.xml.Element;
 import tuwien.auto.calimero.xml.KNXMLException;
 import tuwien.auto.calimero.xml.XMLReader;
@@ -44,7 +46,7 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 {
 	private static final String TAG_DATAPOINTS = "datapoints";
 
-	private final Map points;
+	private final Map<GroupAddress, Datapoint> points;
 	private final EventListeners listeners = new EventListeners();
 
 	/**
@@ -53,7 +55,7 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 	 */
 	public DatapointMap()
 	{
-		points = Collections.synchronizedMap(new HashMap(20));
+		points = Collections.synchronizedMap(new HashMap<GroupAddress, Datapoint>(20));
 	}
 
 	/**
@@ -66,12 +68,12 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 	 * @param datapoints collection with entries of type {@link Datapoint}
 	 * @throws KNXIllegalArgumentException on duplicate datapoint
 	 */
-	public DatapointMap(final Collection datapoints)
+	public DatapointMap(final Collection<Datapoint> datapoints)
 	{
 		// not all HashSets put additional capacity in HashSet(Collection) ctor
-		final Map m = new HashMap(Math.max(2 * datapoints.size(), 11));
-		for (final Iterator i = datapoints.iterator(); i.hasNext();) {
-			final Datapoint dp = (Datapoint) i.next();
+		final Map<GroupAddress, Datapoint> m = new HashMap<GroupAddress, Datapoint>(Math.max(2 * datapoints.size(), 11));
+		for (final Iterator<Datapoint> i = datapoints.iterator(); i.hasNext();) {
+			final Datapoint dp = i.next();
 			if (m.containsKey(dp.getMainAddress()))
 				throw new KNXIllegalArgumentException("duplicate datapoint "
 					+ dp.getMainAddress());
@@ -119,7 +121,7 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 	 */
 	public Datapoint get(final GroupAddress main)
 	{
-		return (Datapoint) points.get(main);
+		return points.get(main);
 	}
 
 	// ??? make this a super type interface method
@@ -129,7 +131,7 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 	 * 
 	 * @return unmodifiable collection with entries of type {@link Datapoint}
 	 */
-	public Collection getDatapoints()
+	public Collection<Datapoint> getDatapoints()
 	{
 		return Collections.unmodifiableCollection(points.values());
 	}
@@ -182,10 +184,10 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 	 */
 	public void save(final XMLWriter w) throws KNXMLException
 	{
-		w.writeElement(TAG_DATAPOINTS, Collections.EMPTY_LIST, null);
+		w.writeElement(TAG_DATAPOINTS, Collections.<Attribute>emptyList(), null);
 		synchronized (points) {
-			for (final Iterator i = points.values().iterator(); i.hasNext();)
-				((Datapoint) i.next()).save(w);
+			for (final Iterator<Datapoint> i = points.values().iterator(); i.hasNext();)
+				i.next().save(w);
 		}
 		w.endElement();
 	}
@@ -210,7 +212,7 @@ public class DatapointMap implements DatapointModel, ChangeNotifier
 
 	private void fireChangeNotification(final Datapoint dp, final boolean added)
 	{
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<EventListener> i = listeners.iterator(); i.hasNext();) {
 			final ChangeListener l = (ChangeListener) i.next();
 			if (added)
 				l.onDatapointAdded(this, dp);

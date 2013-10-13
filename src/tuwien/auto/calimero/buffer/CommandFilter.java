@@ -72,7 +72,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	}
 
 	// stores LDataObjectQueues objects
-	private final List indicationKeys = new LinkedList();
+	private final List<CacheObject> indicationKeys = new LinkedList<CacheObject>();
 	private final QueueListener ql = new QueueListenerImpl();
 	private volatile QueueListener userListener;
 
@@ -165,8 +165,8 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 		if (m != null && ((dp = m.get((GroupAddress) dst)) == null || dp.isStateBased()))
 			return null;
 		synchronized (indicationKeys) {
-			for (final Iterator i = indicationKeys.iterator(); i.hasNext();) {
-				final CacheObject co = (CacheObject) i.next();
+			for (final Iterator<CacheObject> i = indicationKeys.iterator(); i.hasNext();) {
+				final CacheObject co = i.next();
 				if (co.getKey().equals(dst)) {
 					i.remove();
 					return ((LDataObjectQueue) co).getItem().getFrame();

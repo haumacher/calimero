@@ -74,8 +74,8 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	// contains cross references of datapoints: which datapoint (key, of
 	// type KNXAddress) invalidates/updates which datapoints (value,
 	// of type List with GroupAddress entries)
-	private Map invalidate;
-	private Map update;
+	private Map<Object, List<GroupAddress>> invalidate;
+	private Map<Object, List<GroupAddress>> update;
 
 	// keep a reference to a notifying model used by the change listener
 	private DatapointModel model;
@@ -243,9 +243,9 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	private void update(final CEMILData f, final Cache c)
 	{
 		if (update != null) {
-			final List upd = (List) update.get(f.getDestination());
+			final List<GroupAddress> upd = update.get(f.getDestination());
 			if (upd != null)
-				for (final Iterator i = upd.iterator(); i.hasNext();) {
+				for (final Iterator<GroupAddress> i = upd.iterator(); i.hasNext();) {
 					final CacheObject co = c.get(i.next());
 					if (co != null)
 						((LDataObject) co).setFrame(CEMIFactory.create(null,
@@ -257,20 +257,20 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	private void invalidate(final CEMILData f, final Cache c)
 	{
 		if (invalidate != null) {
-			final List inv = (List) invalidate.get(f.getDestination());
+			final List<GroupAddress> inv = invalidate.get(f.getDestination());
 			if (inv != null)
-				for (final Iterator i = inv.iterator(); i.hasNext();)
+				for (final Iterator<GroupAddress> i = inv.iterator(); i.hasNext();)
 					c.remove(i.next());
 		}
 	}
 
 	private void createReferences(final DatapointModel m)
 	{
-		invalidate = new HashMap();
-		update = new HashMap();
-		final Collection c = ((DatapointMap) m).getDatapoints();
+		invalidate = new HashMap<Object, List<GroupAddress>>();
+		update = new HashMap<Object, List<GroupAddress>>();
+		final Collection<Datapoint> c = ((DatapointMap) m).getDatapoints();
 		synchronized (c) {
-			for (final Iterator i = c.iterator(); i.hasNext();) {
+			for (final Iterator<Datapoint> i = c.iterator(); i.hasNext();) {
 				try {
 					createReferences((StateDP) i.next());
 				}
@@ -285,14 +285,14 @@ public class StateFilter implements NetworkFilter, RequestFilter
 		createReferences(update, dp.getAddresses(true), dp.getMainAddress());
 	}
 
-	private void createReferences(final Map map, final Collection forAddr,
+	private void createReferences(final Map<Object, List<GroupAddress>> map, final Collection<GroupAddress> forAddr,
 		final GroupAddress toAddr)
 	{
-		for (final Iterator i = forAddr.iterator(); i.hasNext();) {
+		for (final Iterator<GroupAddress> i = forAddr.iterator(); i.hasNext();) {
 			final Object o = i.next();
-			List l = (List) map.get(o);
+			List<GroupAddress> l = map.get(o);
 			if (l == null)
-				map.put(o, l = new ArrayList());
+				map.put(o, l = new ArrayList<GroupAddress>());
 			l.add(toAddr);
 		}
 	}
@@ -303,12 +303,12 @@ public class StateFilter implements NetworkFilter, RequestFilter
 		destroyReferences(update, dp.getAddresses(true), dp.getMainAddress());
 	}
 
-	private void destroyReferences(final Map map, final Collection forAddr,
+	private void destroyReferences(final Map<Object, List<GroupAddress>> map, final Collection<GroupAddress> forAddr,
 		final GroupAddress toAddr)
 	{
-		for (final Iterator i = forAddr.iterator(); i.hasNext();) {
+		for (final Iterator<GroupAddress> i = forAddr.iterator(); i.hasNext();) {
 			final Object o = i.next();
-			final List l = (List) map.get(o);
+			final List<GroupAddress> l = map.get(o);
 			if (l != null) {
 				l.remove(toAddr);
 				if (l.isEmpty())

@@ -47,7 +47,7 @@ public class DefaultEntityResolver implements EntityResolver
 {
 	// IANA to Java encoding names map, used to specify existing charset decoders,
 	// only IANA names which are different from the java encoding names are listed
-	private static final Map javaNames = new HashMap();
+	private static final Map<String, String> javaNames = new HashMap<String, String>();
 
 	static {
 		// add a new mapping of names, if value from "encoding"
@@ -134,7 +134,7 @@ public class DefaultEntityResolver implements EntityResolver
 			String javaEncoding = encoding;
 			if (att[1] != null) {
 				final String ianaEncoding = att[1].toUpperCase(Locale.ENGLISH);
-				javaEncoding = (String) javaNames.get(ianaEncoding);
+				javaEncoding = javaNames.get(ianaEncoding);
 				if (javaEncoding == null)
 					javaEncoding = ianaEncoding;
 			}

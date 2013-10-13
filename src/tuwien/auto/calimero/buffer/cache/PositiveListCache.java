@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class PositiveListCache extends ExpiringCache
 {
-	private Set posList = new HashSet();
+	private Set<Object> posList = new HashSet<Object>();
 	private long hits;
 	private long misses;
  
@@ -68,7 +68,7 @@ public class PositiveListCache extends ExpiringCache
 	 * @param timeToExpire timespan in seconds for cache objects to stay valid,
 	 *        or 0 for no expiring
 	 */
-	public PositiveListCache(final Collection positiveList, final int timeToExpire)
+	public PositiveListCache(final Collection<Object> positiveList, final int timeToExpire)
 	{
 		this(timeToExpire);
 		setPositiveList(positiveList);
@@ -82,14 +82,14 @@ public class PositiveListCache extends ExpiringCache
 	 * 
 	 * @param positiveList a Collection holding the allowed keys for this cache
 	 */
-	public final synchronized void setPositiveList(final Collection positiveList)
+	public final synchronized void setPositiveList(final Collection<Object> positiveList)
 	{
 		if (posList.size() == 0)
 			posList.addAll(positiveList);
 		else {
-			posList = new HashSet(positiveList);
+			posList = new HashSet<Object>(positiveList);
 			// remove old keys not in the new list anymore
-			for (final Iterator i = map.keySet().iterator(); i.hasNext(); )
+			for (final Iterator<Object> i = map.keySet().iterator(); i.hasNext(); )
 				if (!posList.contains(i.next()))
 					i.remove();
 		}
@@ -157,7 +157,7 @@ public class PositiveListCache extends ExpiringCache
 	 */
 	public synchronized CacheObject get(final Object key)
 	{
-		final CacheObject o = (CacheObject) map.get(key);
+		final CacheObject o = map.get(key);
 		if (o != null) {
 			updateAccess(o);
 			++hits;

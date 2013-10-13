@@ -214,7 +214,7 @@ public interface ManagementClient
 	 * @throws KNXException on other read domain address errors
 	 * @throws InterruptedException
 	 */
-	List readDomainAddress(boolean oneAddressOnly) throws KNXException,
+	List<byte[]> readDomainAddress(boolean oneAddressOnly) throws KNXException,
 		InterruptedException;
 
 	/**
@@ -243,7 +243,7 @@ public interface ManagementClient
 	 * @throws KNXException on other read domain address errors
 	 * @throws InterruptedException
 	 */
-	List readDomainAddress(byte[] domain, IndividualAddress startAddress, int range)
+	List<byte[]> readDomainAddress(byte[] domain, IndividualAddress startAddress, int range)
 		throws KNXException, InterruptedException;
 
 	/**

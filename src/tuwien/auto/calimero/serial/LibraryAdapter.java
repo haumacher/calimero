@@ -135,7 +135,7 @@ public abstract class LibraryAdapter
 	protected Object invoke(final Object obj, final String method, final Object[] args)
 		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
 	{
-		final Class[] c = new Class[args == null ? 0 : args.length];
+		final Class<?>[] c = new Class[args == null ? 0 : args.length];
 		for (int i = 0; i < c.length; ++i) {
 			c[i] = args[i].getClass();
 			if (c[i] == Integer.class)
@@ -143,7 +143,7 @@ public abstract class LibraryAdapter
 		}
 		try {
 			if (obj instanceof Class)
-				return ((Class) obj).getMethod(method, c).invoke(null, args);
+				return ((Class<?>) obj).getMethod(method, c).invoke(null, args);
 			return obj.getClass().getMethod(method, c).invoke(obj, args);
 		}
 		catch (final IllegalArgumentException e) {

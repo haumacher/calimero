@@ -194,7 +194,7 @@ public final class TranslatorTypes
 	 */
 	public static class MainType
 	{
-		private final Class xlator;
+		private final Class<?> xlator;
 		private final String desc;
 		private final int main;
 
@@ -207,7 +207,7 @@ public final class TranslatorTypes
 		 * @param description textual information describing this data type to a user, use
 		 *        <code>null</code> for no description
 		 */
-		public MainType(final int mainNumber, final Class translator, final String description)
+		public MainType(final int mainNumber, final Class<?> translator, final String description)
 		{
 			if (mainNumber <= 0)
 				throw new KNXIllegalArgumentException("invalid main number");
@@ -264,8 +264,8 @@ public final class TranslatorTypes
 		public DPTXlator createTranslator(final String dptID) throws KNXException
 		{
 			try {
-				return (DPTXlator) xlator.getConstructor(new Class[] { String.class }).newInstance(
-						new String[] { dptID });
+				return (DPTXlator) xlator.getConstructor(new Class<?>[] { String.class }).newInstance(
+						new Object[] { dptID });
 			}
 			catch (final InvocationTargetException e) {
 				// try to forward encapsulated target exception
@@ -291,7 +291,7 @@ public final class TranslatorTypes
 		 * 
 		 * @return the translator class as {@link Class} object
 		 */
-		public Class getTranslator()
+		public Class<?> getTranslator()
 		{
 			return xlator;
 		}
@@ -317,10 +317,12 @@ public final class TranslatorTypes
 		 *         user supplied translators
 		 * @see DPTXlator#getSubTypes()
 		 */
-		public Map getSubTypes() throws KNXException
+		public Map<String, DPT> getSubTypes() throws KNXException
 		{
 			try {
-				return (Map) xlator.getDeclaredMethod("getSubTypesStatic", null).invoke(null, null);
+				@SuppressWarnings("unchecked")
+				Map<String, DPT> result = (Map<String, DPT>) xlator.getDeclaredMethod("getSubTypesStatic").invoke(null);
+				return result;
 			}
 			catch (final NoSuchMethodException e) {
 				throw new KNXException("no method to get subtypes, " + e.getMessage());
@@ -333,10 +335,10 @@ public final class TranslatorTypes
 		}
 	}
 
-	private static final Map map;
+	private static final Map<Integer, MainType> map;
 
 	static {
-		map = Collections.synchronizedMap(new HashMap(20));
+		map = Collections.synchronizedMap(new HashMap<Integer, MainType>(20));
 		addTranslator(TYPE_BOOLEAN, "DPTXlatorBoolean", "Boolean (main type 1)");
 		addTranslator(TYPE_1BIT_CONTROLLED, "DPTXlator1BitControlled",
 				"Boolean controlled (main type 2");
@@ -386,7 +388,7 @@ public final class TranslatorTypes
 	 */
 	public static MainType getMainType(final int mainNumber)
 	{
-		return (MainType) map.get(new Integer(mainNumber));
+		return map.get(new Integer(mainNumber));
 	}
 
 	/**
@@ -398,7 +400,7 @@ public final class TranslatorTypes
 	 * 
 	 * @return a {@link Map} containing all data types as {@link MainType} objects
 	 */
-	public static Map getAllMainTypes()
+	public static Map<Integer, MainType> getAllMainTypes()
 	{
 		return map;
 	}
@@ -450,7 +452,7 @@ public final class TranslatorTypes
 	{
 		try {
 			final int main = getMainNumber(mainNumber, dptID);
-			final MainType type = (MainType) map.get(new Integer(main));
+			final MainType type = map.get(new Integer(main));
 			if (type != null)
 				return type.createTranslator(dptID);
 		}
@@ -477,9 +479,9 @@ public final class TranslatorTypes
 			return createTranslator(0, dpt.getID());
 		}
 		catch (final KNXException e) {
-			for (final Iterator i = map.values().iterator(); i.hasNext(); )
+			for (final Iterator<MainType> i = map.values().iterator(); i.hasNext(); )
 				try {
-					return ((MainType) i.next()).createTranslator(dpt);
+					return i.next().createTranslator(dpt);
 				}
 				catch (final KNXException ignore) {}
 		}

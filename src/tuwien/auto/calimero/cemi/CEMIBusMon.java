@@ -256,7 +256,7 @@ public class CEMIBusMon implements CEMI
 	 */
 	public final byte[] getPayload()
 	{
-		return (byte[]) raw.clone();
+		return raw.clone();
 	}
 
 //	/**
@@ -473,7 +473,7 @@ public class CEMIBusMon implements CEMI
 		final long max = extTimestamp ? 0xFFFFFFFFL : 0xFFFFL;
 		if (tstamp < 0 || tstamp > max)
 			throw new KNXIllegalArgumentException("timestamp out of range");
-		raw = (byte[]) rawFrame.clone();
+		raw = rawFrame.clone();
 		if (raw.length == 0 || raw.length > 23)
 			throw new KNXIllegalArgumentException("raw frame length out of range [1..23]");
 	}

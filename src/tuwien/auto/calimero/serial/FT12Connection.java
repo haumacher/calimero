@@ -233,14 +233,14 @@ public class FT12Connection
 		}
 		if (SerialComAdapter.isAvailable()) {
 			final String[] prefixes = defaultPortPrefixes();
-			final List l = new ArrayList(10);
+			final List<String> l = new ArrayList<String>(10);
 			for (int k = 0; k < prefixes.length; k++) {
 				String prefix = prefixes[k];
 				for (int i = 0; i < 10; ++i)
 					if (SerialComAdapter.portExists(prefix + i))
 						l.add(prefix + i);
 			}
-			return (String[]) l.toArray(new String[l.size()]);
+			return l.toArray(new String[l.size()]);
 		}
 		// skip other possible adapters for now, and return empty list...
 		return new String[0];
@@ -464,7 +464,7 @@ public class FT12Connection
 			}
 		}
 		try {
-			final Class c = Class.forName("tuwien.auto.calimero.serial.RxtxAdapter");
+			final Class<?> c = Class.forName("tuwien.auto.calimero.serial.RxtxAdapter");
 			available = true;
 			// check whether a rxtx library is hanging around somewhere
 			logger.info("open rxtx library serial port connection");

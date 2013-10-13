@@ -173,7 +173,7 @@ public class HPAI
 	 */
 	public final byte[] getRawAddress()
 	{
-		return (byte[]) address.clone();
+		return address.clone();
 	}
 
 	/**

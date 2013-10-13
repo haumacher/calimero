@@ -56,14 +56,14 @@ public class LogService
 	{
 		private static final class LogData
 		{
-			final List wr;
+			final List<LogWriter> wr;
 			final String svc;
 			final LogLevel lvl;
 			final String msg;
 			final Throwable trow;
 			final Thread thread;
 
-			LogData(final List writers, final String service, final LogLevel level,
+			LogData(final List<LogWriter> writers, final String service, final LogLevel level,
 				final String message, final Throwable t, final Thread thr)
 			{
 				wr = writers;
@@ -75,7 +75,7 @@ public class LogService
 			}
 		}
 
-		private final List data = new LinkedList();
+		private final List<LogData> data = new LinkedList<LogData>();
 		private volatile boolean quit;
 
 		Dispatcher()
@@ -93,7 +93,7 @@ public class LogService
 					synchronized (data) {
 						while (data.isEmpty())
 							data.wait();
-						d = (LogData) data.remove(0);
+						d = data.remove(0);
 					}
 					dispatch(d);
 				}
@@ -104,11 +104,11 @@ public class LogService
 			// empty log data list
 			synchronized (data) {
 				while (!data.isEmpty())
-					dispatch((LogData) data.remove(0));
+					dispatch(data.remove(0));
 			}
 		}
 
-		void add(final List writers, final String service, final LogLevel level, final String msg,
+		void add(final List<LogWriter> writers, final String service, final LogLevel level, final String msg,
 			final Throwable t)
 		{
 			if (!quit) {
@@ -124,8 +124,8 @@ public class LogService
 			final boolean dev = Settings.getLibraryMode() == Settings.DEV_MODE;
 			final String svc = dev ? ("[" + d.thread.getName() + "] " + d.svc) : d.svc;
 			synchronized (d.wr) {
-				for (final Iterator i = d.wr.iterator(); i.hasNext();)
-					((LogWriter) i.next()).write(svc, d.lvl, d.msg, d.trow);
+				for (final Iterator<LogWriter> i = d.wr.iterator(); i.hasNext();)
+					i.next().write(svc, d.lvl, d.msg, d.trow);
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public class LogService
 	/** Name of this log service. */
 	protected final String name;
 	private LogLevel logLevel = LogLevel.ALL;
-	private List writers = new Vector();
+	private List<LogWriter> writers = new Vector<LogWriter>();
 
 	/**
 	 * Creates a new log service with the specified <code>name</code>.
@@ -251,10 +251,10 @@ public class LogService
 	{
 		if (close)
 			synchronized (writers) {
-				for (final Iterator i = writers.iterator(); i.hasNext();)
-					((LogWriter) i.next()).close();
+				for (final Iterator<LogWriter> i = writers.iterator(); i.hasNext();)
+					i.next().close();
 			}
-		writers = new Vector();
+		writers = new Vector<LogWriter>();
 	}
 
 	/**

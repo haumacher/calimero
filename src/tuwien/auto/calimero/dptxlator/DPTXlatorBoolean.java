@@ -183,10 +183,10 @@ public class DPTXlatorBoolean extends DPTXlator
 	 */
 	public static final DPT DPT_HEAT_COOL = new DPT("1.100", "Heat/Cool", "cooling", "heating");
 	
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap(30);
+		types = new HashMap<String, DPT>(30);
 		types.put(DPT_SWITCH.getID(), DPT_SWITCH);
 		types.put(DPT_BOOL.getID(), DPT_BOOL);
 		types.put(DPT_ENABLE.getID(), DPT_ENABLE);
@@ -314,7 +314,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public final Map getSubTypes()
+	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -323,7 +323,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	 * @return the subtypes of the boolean translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

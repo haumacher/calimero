@@ -37,7 +37,7 @@ import tuwien.auto.calimero.log.LogService;
  */
 public class EventListeners
 {
-	private final List listeners = new ArrayList();
+	private final List<EventListener> listeners = new ArrayList<EventListener>();
 	private EventListener[] listenersCopy = new EventListener[0];
 	private final LogService logger;
 
@@ -76,7 +76,7 @@ public class EventListeners
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = (EventListener[]) listeners
+				listenersCopy = listeners
 					.toArray(new EventListener[listeners.size()]);
 			}
 			else if (logger != null)
@@ -95,7 +95,7 @@ public class EventListeners
 	{
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = (EventListener[]) listeners
+				listenersCopy = listeners
 					.toArray(new EventListener[listeners.size()]);
 		}
 	}
@@ -133,7 +133,7 @@ public class EventListeners
 	 * 
 	 * @return the iterator for the listeners
 	 */
-	public Iterator iterator()
+	public Iterator<EventListener> iterator()
 	{
 		return Arrays.asList(listenersCopy).iterator();
 	}

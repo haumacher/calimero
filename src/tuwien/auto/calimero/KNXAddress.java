@@ -187,7 +187,7 @@ public abstract class KNXAddress
 	 */
 	public void save(final XMLWriter w) throws KNXMLException
 	{
-		final List att = new ArrayList();
+		final List<Attribute> att = new ArrayList<Attribute>();
 		att.add(new Attribute(ATTR_TYPE, getType()));
 		w.writeComment(" " + toString() + " ");
 		w.writeElement(TAG_ADDRESS, att, Integer.toString(address));

@@ -52,11 +52,11 @@ final class References
 		{ "&apos;", "&#39;", "&#x27;", "'" },
 	};
 	// references to entity mapping
-	private static final Map map;
+	private static final Map<String, String> map;
 	
 	static
 	{
-		map = new HashMap(25);
+		map = new HashMap<String, String>(25);
 		for (int i = 0; i < 5; ++i)
 			for (int k = 0; k < 3; ++k)
 				map.put(entityTable[i][k], entityTable[i][3]);
@@ -74,7 +74,7 @@ final class References
 			final int end = text.indexOf(';', pos + 1);
 			if (end == -1)
 				break;
-			final String entity = (String) map.get(text.substring(pos, end + 1));
+			final String entity = map.get(text.substring(pos, end + 1));
 			if (entity != null) {
 				mod.append(text.substring(oldpos, pos));
 				mod.append(entity);

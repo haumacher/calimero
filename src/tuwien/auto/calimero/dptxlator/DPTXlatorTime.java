@@ -72,10 +72,10 @@ public class DPTXlatorTime extends DPTXlator
 
 	private static Calendar c;
 	private static SimpleDateFormat sdf;
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap(3);
+		types = new HashMap<String, DPT>(3);
 		types.put(DPT_TIMEOFDAY.getID(), DPT_TIMEOFDAY);
 	}
 
@@ -263,7 +263,7 @@ public class DPTXlatorTime extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public Map getSubTypes()
+	public Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -272,7 +272,7 @@ public class DPTXlatorTime extends DPTXlator
 	 * @return the subtypes of the time translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

@@ -224,7 +224,7 @@ public interface ManagementProcedures
 	 * @throws InterruptedException
 	 */
 	// ??? can we automatically detect the medium in this procedure?
-	List scanSerialNumbers(int medium) throws KNXException, InterruptedException;
+	List<byte[]> scanSerialNumbers(int medium) throws KNXException, InterruptedException;
 	
 	// mode querying/setting procedures
 

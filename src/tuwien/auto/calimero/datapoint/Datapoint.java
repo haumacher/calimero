@@ -276,7 +276,7 @@ public abstract class Datapoint
 		 ...
 		 </datapoint>
 		*/
-		final List att = new ArrayList();
+		final List<Attribute> att = new ArrayList<Attribute>();
 		att.add(new Attribute(ATTR_STATEBASED, Boolean.toString(stateBased)));
 		att.add(new Attribute(ATTR_NAME, name));
 		att.add(new Attribute(ATTR_MAINNUMBER, Integer.toString(mainNo)));

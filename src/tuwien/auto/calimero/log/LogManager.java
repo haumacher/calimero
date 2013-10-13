@@ -43,13 +43,13 @@ public final class LogManager
 {
 	private static final LogManager mgr = new LogManager();
 	
-	private final Map loggers;
-	private final List writers;
+	private final Map<String, LogService> loggers;
+	private final List<LogWriter> writers;
 
 	private LogManager()
 	{
-		loggers = Collections.synchronizedMap(new HashMap());
-		writers = new Vector();
+		loggers = Collections.synchronizedMap(new HashMap<String, LogService>());
+		writers = new Vector<LogWriter>();
 	}
 
 	/**
@@ -92,12 +92,12 @@ public final class LogManager
 	public LogService getLogService(final String name)
 	{
 		synchronized (loggers) {
-			LogService l = (LogService) loggers.get(name);
+			LogService l = loggers.get(name);
 			if (l == null) {
 				l = new LogService(name);
 				loggers.put(name, l);
-				for (final Iterator i = writers.iterator(); i.hasNext();)
-					l.addWriter((LogWriter) i.next());
+				for (final Iterator<LogWriter> i = writers.iterator(); i.hasNext();)
+					l.addWriter(i.next());
 			}
 			return l;
 		}
@@ -123,7 +123,7 @@ public final class LogManager
 	 */
 	public String[] getAllLogServices()
 	{
-		return (String[]) loggers.keySet().toArray(new String[loggers.size()]);
+		return loggers.keySet().toArray(new String[loggers.size()]);
 	}
 
 	/**
@@ -144,15 +144,15 @@ public final class LogManager
 	public boolean addWriter(final String logService, final LogWriter writer)
 	{
 		if (logService != null && logService.length() > 0) {
-			final LogService l = (LogService) loggers.get(logService);
+			final LogService l = loggers.get(logService);
 			if (l != null)
 				l.addWriter(writer);
 			return l != null;
 		}
 		synchronized (loggers) {
 			writers.add(writer);
-			for (final Iterator i = loggers.values().iterator(); i.hasNext();)
-				((LogService) i.next()).addWriter(writer);
+			for (final Iterator<LogService> i = loggers.values().iterator(); i.hasNext();)
+				i.next().addWriter(writer);
 			return true;
 		}
 	}
@@ -170,15 +170,15 @@ public final class LogManager
 	public void removeWriter(final String logService, final LogWriter writer)
 	{
 		if (logService != null && logService.length() > 0) {
-			final LogService l = (LogService) loggers.get(logService);
+			final LogService l = loggers.get(logService);
 			if (l != null)
 				l.removeWriter(writer);
 		}
 		else
 			synchronized (loggers) {
 				if (writers.remove(writer))
-					for (final Iterator i = loggers.values().iterator(); i.hasNext();)
-						((LogService) i.next()).removeWriter(writer);
+					for (final Iterator<LogService> i = loggers.values().iterator(); i.hasNext();)
+						i.next().removeWriter(writer);
 			}
 	}
 
@@ -192,7 +192,7 @@ public final class LogManager
 	 */
 	public LogWriter[] getAllGlobalWriters()
 	{
-		return (LogWriter[]) writers.toArray(new LogWriter[writers.size()]);
+		return writers.toArray(new LogWriter[writers.size()]);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public final class LogManager
 		// since closing file resources etc. can take some time
 		final LogService[] lsa;
 		synchronized (loggers) {
-			lsa = (LogService[]) loggers.values().toArray(new LogService[loggers.size()]);
+			lsa = loggers.values().toArray(new LogService[loggers.size()]);
 		}
 		for (int i = 0; i < lsa.length; i++)
 			lsa[i].removeAllWriters(true);

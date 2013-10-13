@@ -672,7 +672,7 @@ public class DPTXlator4ByteFloat extends DPTXlator
 	public static final DPT DPT_WORK = new DPT("14.079", "Work", "-3.40282347e+38f",
 			"3.40282347e+38f", "J");
 
-	private static final Map types = new HashMap(100);
+	private static final Map<String, DPT> types = new HashMap<String, DPT>(100);
 
 	static {
 		final Field[] fields = DPTXlator4ByteFloat.class.getFields();
@@ -680,7 +680,7 @@ public class DPTXlator4ByteFloat extends DPTXlator
 			try {
 				final Object o = fields[i].get(null);
 				if (o instanceof DPT) {
-					types.put(((DPT) o).getID(), o);
+					types.put(((DPT) o).getID(), (DPT) o);
 				}
 			}
 			catch (final IllegalAccessException e) {}
@@ -758,7 +758,7 @@ public class DPTXlator4ByteFloat extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public Map getSubTypes()
+	public Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -767,7 +767,7 @@ public class DPTXlator4ByteFloat extends DPTXlator
 	 * @return the subtypes of the 2-byte float translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

@@ -109,16 +109,16 @@ public class DPTXlator4ByteSigned extends DPTXlator
 	public static final DPT DPT_DELTA_TIME = new DPT("13.100", "Delta time in seconds",
 			"-2147483648", "2147483647", "s");
 
-	private static final Map types;
+	private static final Map<String, DPT> types;
 	
 	static {
-		types = new HashMap(15);
+		types = new HashMap<String, DPT>(15);
 		final Field[] fields = DPTXlator4ByteSigned.class.getFields();
 		for (int i = 0; i < fields.length; i++) {
 			try {
 				final Object o = fields[i].get(null);
 				if (o instanceof DPT) {
-					types.put(((DPT) o).getID(), o);
+					types.put(((DPT) o).getID(), (DPT) o);
 				}
 			}
 			catch (final IllegalAccessException e) {}
@@ -199,7 +199,7 @@ public class DPTXlator4ByteSigned extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public final Map getSubTypes()
+	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
 	}
@@ -208,7 +208,7 @@ public class DPTXlator4ByteSigned extends DPTXlator
 	 * @return the subtypes of the 4-byte unsigned translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic()
+	protected static Map<String, DPT> getSubTypesStatic()
 	{
 		return types;
 	}

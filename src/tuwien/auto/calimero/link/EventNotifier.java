@@ -99,7 +99,7 @@ abstract class EventNotifier extends Thread implements KNXListener
 
 	private final EventListeners listeners;
 
-	private final List events = new LinkedList();
+	private final List<EventCallback> events = new LinkedList<EventCallback>();
 	private volatile boolean stop;
 
 	EventNotifier(final Object source, final LogService logger)
@@ -120,7 +120,7 @@ abstract class EventNotifier extends Thread implements KNXListener
 				synchronized (events) {
 					while (events.isEmpty())
 						events.wait();
-					ec = (EventCallback) events.remove(0);
+					ec = events.remove(0);
 				}
 				fire(ec);
 			}
@@ -129,7 +129,7 @@ abstract class EventNotifier extends Thread implements KNXListener
 		// empty event queue
 		synchronized (events) {
 			while (!events.isEmpty())
-				fire((EventCallback) events.remove(0));
+				fire(events.remove(0));
 		}
 	}
 

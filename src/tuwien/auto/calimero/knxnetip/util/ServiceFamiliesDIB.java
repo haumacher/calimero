@@ -22,6 +22,7 @@ package tuwien.auto.calimero.knxnetip.util;
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import tuwien.auto.calimero.exception.KNXFormatException;
 import tuwien.auto.calimero.exception.KNXIllegalArgumentException;
@@ -157,7 +158,7 @@ public class ServiceFamiliesDIB extends DIB
 	 *        the service family of type {@link Integer} being the key, and the version of
 	 *        type {@link Integer} being the value.
 	 */
-	public ServiceFamiliesDIB(final Map families)
+	public ServiceFamiliesDIB(final Map<Integer, Integer> families)
 	{
 		super(2 + 2 * families.size(), SUPP_SVC_FAMILIES);
 		// maximum size of 20 is arbitrarily chosen as sanitation measure, but considered
@@ -168,9 +169,9 @@ public class ServiceFamiliesDIB extends DIB
 		ids = new int[families.size()];
 		versions = new int[ids.length];
 		int count = 0;
-		for (final Iterator i = families.entrySet().iterator(); i.hasNext();) {
-			final Map.Entry e = (Map.Entry) i.next();
-			add(((Integer) e.getKey()).intValue(), ((Integer) e.getValue()).intValue(), count++);
+		for (final Iterator<Entry<Integer, Integer>> i = families.entrySet().iterator(); i.hasNext();) {
+			final Entry<Integer, Integer> e = i.next();
+			add(e.getKey().intValue(), e.getValue().intValue(), count++);
 		}
 	}
 
@@ -198,7 +199,7 @@ public class ServiceFamiliesDIB extends DIB
 	 */
 	public final int[] getFamilyIds()
 	{
-		return (int[]) ids.clone();
+		return ids.clone();
 	}
 
 	/**

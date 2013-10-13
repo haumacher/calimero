@@ -44,8 +44,8 @@ import tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 final class TimerQueue extends Thread
 {
 	// synchronize on notifiables as monitor for both notifiables and endTimes lists
-	private final List notifiables = new ArrayList();
-	private final List endTimes = new ArrayList();
+	private final List<Runnable> notifiables = new ArrayList<Runnable>();
+	private final List<Long> endTimes = new ArrayList<Long>();
 	
 	public TimerQueue()
 	{
@@ -67,8 +67,8 @@ final class TimerQueue extends Thread
 						notifiables.wait();
 					}
 					else {
-						final Runnable next = (Runnable) notifiables.get(0);
-						final Long end = (Long) endTimes.get(0);
+						final Runnable next = notifiables.get(0);
+						final Long end = endTimes.get(0);
 						long remaining = end.longValue() - System.currentTimeMillis();
 						if (remaining > 0) {
 							notifiables.wait(remaining);
