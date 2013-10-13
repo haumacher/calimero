@@ -94,6 +94,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 			super(source, logger);
 		}
 
+		@Override
 		public void frameReceived(final FrameEvent e)
 		{
 			final int mc = e.getFrame().getMessageCode();
@@ -110,6 +111,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 						+ Integer.toHexString(mc));
 		}
 
+		@Override
 		public void connectionClosed(final CloseEvent e)
 		{
 			((KNXNetworkLinkIP) source).closed = true;
@@ -264,6 +266,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#setKNXMedium
 	 * (tuwien.auto.calimero.link.medium.KNXMediumSettings)
 	 */
+	@Override
 	public void setKNXMedium(final KNXMediumSettings settings)
 	{
 		if (settings == null)
@@ -277,6 +280,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#getKNXMedium()
 	 */
+	@Override
 	public KNXMediumSettings getKNXMedium()
 	{
 		return medium;
@@ -286,6 +290,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#addLinkListener
 	 * (tuwien.auto.calimero.link.event.NetworkLinkListener)
 	 */
+	@Override
 	public void addLinkListener(final NetworkLinkListener l)
 	{
 		notifier.addListener(l);
@@ -295,6 +300,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#removeLinkListener
 	 * (tuwien.auto.calimero.link.event.NetworkLinkListener)
 	 */
+	@Override
 	public void removeLinkListener(final NetworkLinkListener l)
 	{
 		notifier.removeListener(l);
@@ -303,6 +309,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#setHopCount(int)
 	 */
+	@Override
 	public final void setHopCount(final int count)
 	{
 		if (count < 0 || count > 7)
@@ -314,6 +321,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#getHopCount()
 	 */
+	@Override
 	public final int getHopCount()
 	{
 		return hopCount;
@@ -324,6 +332,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * messages are broadcasted within domain (as opposite to system broadcast) by
 	 * default. Specify <code>dst null</code> for system broadcast.
 	 */
+	@Override
 	public void sendRequest(final KNXAddress dst, final Priority p, final byte[] nsdu)
 		throws KNXLinkClosedException, KNXTimeoutException
 	{
@@ -335,6 +344,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * messages are broadcasted within domain (as opposite to system broadcast) by
 	 * default. Specify <code>dst null</code> for system broadcast.
 	 */
+	@Override
 	public void sendRequestWait(final KNXAddress dst, final Priority p, final byte[] nsdu)
 		throws KNXTimeoutException, KNXLinkClosedException
 	{
@@ -345,6 +355,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#send
 	 * (tuwien.auto.calimero.cemi.CEMILData, boolean)
 	 */
+	@Override
 	public void send(final CEMILData msg, final boolean waitForCon) throws KNXTimeoutException,
 		KNXLinkClosedException
 	{
@@ -354,6 +365,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#getName()
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -362,6 +374,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#isOpen()
 	 */
+	@Override
 	public boolean isOpen()
 	{
 		return !closed;
@@ -370,6 +383,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkLink#close()
 	 */
+	@Override
 	public void close()
 	{
 		synchronized (this) {
@@ -384,6 +398,7 @@ public class KNXNetworkLinkIP implements KNXNetworkLink
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return getName() + (mode == TUNNELING ? " tunneling" : " routing") + " mode"

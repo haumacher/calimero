@@ -375,6 +375,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return a string representation of the object
 	 */
+	@Override
 	public String toString()
 	{
 		InetAddress mc = null;
@@ -392,6 +393,7 @@ public class DeviceDIB extends DIB
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.util.DIB#toByteArray()
 	 */
+	@Override
 	public byte[] toByteArray()
 	{
 		final byte[] buf = super.toByteArray();

@@ -50,6 +50,7 @@ public class StatisticImpl implements Statistic
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#hits()
 	 */
+	@Override
 	public final long hits()
 	{
 		return hits;
@@ -58,6 +59,7 @@ public class StatisticImpl implements Statistic
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#misses()
 	 */
+	@Override
 	public final long misses()
 	{
 		return misses;
@@ -66,6 +68,7 @@ public class StatisticImpl implements Statistic
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#hitRatio()
 	 */
+	@Override
 	public final double hitRatio()
 	{
 		final double total = hits + misses;

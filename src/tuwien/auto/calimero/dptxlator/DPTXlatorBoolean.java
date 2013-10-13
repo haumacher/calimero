@@ -265,6 +265,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
 	 */
+	@Override
 	public String getValue()
 	{
 		return fromDPT(0);
@@ -273,6 +274,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
 	 */
+	@Override
 	public String[] getAllValues()
 	{
 		final String[] buf = new String[data.length];
@@ -284,6 +286,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#setData(byte[], int)
 	 */
+	@Override
 	public void setData(final byte[] data, final int offset)
 	{
 		if (offset < 0 || offset > data.length)
@@ -300,6 +303,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getData(byte[], int)
 	 */
+	@Override
 	public byte[] getData(final byte[] dst, final int offset)
 	{
 		final int end = Math.min(data.length, dst.length - offset);
@@ -314,6 +318,7 @@ public class DPTXlatorBoolean extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
+	@Override
 	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
@@ -328,6 +333,7 @@ public class DPTXlatorBoolean extends DPTXlator
 		return types;
 	}
 
+	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException
 	{

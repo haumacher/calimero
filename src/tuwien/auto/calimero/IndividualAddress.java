@@ -161,6 +161,7 @@ public class IndividualAddress extends KNXAddress
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.KNXAddress#getType()
 	 */
+	@Override
 	public String getType()
 	{
 		return ATTR_IND;
@@ -172,6 +173,7 @@ public class IndividualAddress extends KNXAddress
 	 * 
 	 * @return the address string
 	 */
+	@Override
 	public String toString()
 	{
 		return getArea() + "." + getLine() + "." + getDevice();
@@ -185,6 +187,7 @@ public class IndividualAddress extends KNXAddress
 	 * @return <code>true</code> iff <code>obj</code> is of this type and contains the
 	 *         same address, <code>false</code> otherwise
 	 */
+	@Override
 	public boolean equals(final Object obj)
 	{
 		if (obj instanceof IndividualAddress)
@@ -195,6 +198,7 @@ public class IndividualAddress extends KNXAddress
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode()
 	{
 		// offset to distinguish between group address

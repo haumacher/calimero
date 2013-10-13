@@ -85,6 +85,7 @@ public class StateFilter implements NetworkFilter, RequestFilter
 		 * @param m
 		 * @param dp
 		 */
+		@Override
 		public void onDatapointRemoved(final DatapointModel m, final Datapoint dp)
 		{
 			if (dp instanceof StateDP)
@@ -95,6 +96,7 @@ public class StateFilter implements NetworkFilter, RequestFilter
 		 * @param m
 		 * @param dp
 		 */
+		@Override
 		public void onDatapointAdded(final DatapointModel m, final Datapoint dp)
 		{
 			if (dp instanceof StateDP)
@@ -113,6 +115,7 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	 * @see tuwien.auto.calimero.buffer.Configuration.NetworkFilter#init
 	 * (tuwien.auto.calimero.buffer.Configuration)
 	 */
+	@Override
 	public void init(final Configuration c)
 	{
 		// check if we have a current model which emits change notifications
@@ -152,6 +155,7 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	 * @param frame {@inheritDoc}
 	 * @param c {@inheritDoc}
 	 */
+	@Override
 	public void accept(final CEMI frame, final Configuration c)
 	{
 		final Cache cache = c.getCache();
@@ -221,6 +225,7 @@ public class StateFilter implements NetworkFilter, RequestFilter
 	 * @see tuwien.auto.calimero.buffer.Configuration.RequestFilter#request(
 	 * tuwien.auto.calimero.KNXAddress, tuwien.auto.calimero.buffer.Configuration)
 	 */
+	@Override
 	public CEMILData request(final KNXAddress dst, final Configuration c)
 	{
 		final Cache cache = c.getCache();

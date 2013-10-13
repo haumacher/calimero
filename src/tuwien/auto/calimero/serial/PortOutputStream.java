@@ -45,6 +45,7 @@ class PortOutputStream extends OutputStream
 	/* (non-Javadoc)
 	 * @see java.io.OutputStream#write(int)
 	 */
+	@Override
 	public void write(final int b) throws IOException
 	{
 		p.write(b);
@@ -53,6 +54,7 @@ class PortOutputStream extends OutputStream
 	/* (non-Javadoc)
 	 * @see java.io.OutputStream#write(byte[])
 	 */
+	@Override
 	public void write(final byte[] b) throws IOException
 	{
 		if (b == null)
@@ -63,6 +65,7 @@ class PortOutputStream extends OutputStream
 	/* (non-Javadoc)
 	 * @see java.io.OutputStream#write(byte[], int, int)
 	 */
+	@Override
 	public void write(final byte[] b, final int off, final int len) throws IOException
 	{
 		if (b == null)
@@ -76,6 +79,7 @@ class PortOutputStream extends OutputStream
 	/* (non-Javadoc)
 	 * @see java.io.OutputStream#flush()
 	 */
+	@Override
 	public void flush() throws IOException
 	{
 		super.flush();
@@ -84,6 +88,7 @@ class PortOutputStream extends OutputStream
 	/* (non-Javadoc)
 	 * @see java.io.OutputStream#close()
 	 */
+	@Override
 	public void close() throws IOException
 	{
 		super.flush();

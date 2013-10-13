@@ -215,6 +215,7 @@ public class GroupAddress extends KNXAddress
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.KNXAddress#getType()
 	 */
+	@Override
 	public String getType()
 	{
 		return ATTR_GROUP;
@@ -228,6 +229,7 @@ public class GroupAddress extends KNXAddress
 	 * 
 	 * @return the address string
 	 */
+	@Override
 	public String toString()
 	{
 		if (fmt3Level)
@@ -244,6 +246,7 @@ public class GroupAddress extends KNXAddress
 	 * @return <code>true</code> iff <code>obj</code> is of this type and contains the
 	 *         same address (raw), <code>false</code> otherwise
 	 */
+	@Override
 	public boolean equals(final Object obj)
 	{
 		if (obj instanceof GroupAddress)
@@ -254,6 +257,7 @@ public class GroupAddress extends KNXAddress
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode()
 	{
 		return address;

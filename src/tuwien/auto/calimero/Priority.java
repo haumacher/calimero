@@ -127,6 +127,7 @@ public final class Priority
 	 * 
 	 * @return priority as string
 	 */
+	@Override
 	public String toString()
 	{
 		return value == 0 ? "system" : value == 1 ? "normal" : value == 2 ? "urgent"

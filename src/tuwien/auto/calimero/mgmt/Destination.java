@@ -162,6 +162,7 @@ public class Destination
 		 * The proxy acts as notifiable to the disconnect timer. If notified, the
 		 * connection timed out, and it will ensure the destination gets disconnected.
 		 */
+		@Override
 		public void run()
 		{
 			final int state = d.getState();
@@ -370,6 +371,7 @@ public class Destination
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		final String s = "destination " + addr + " (" + tl.getName() + ") "

@@ -242,6 +242,7 @@ public class CEMIBusMon implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#getMessageCode()
 	 */
+	@Override
 	public final int getMessageCode()
 	{
 		return MC_BUSMON_IND;
@@ -254,6 +255,7 @@ public class CEMIBusMon implements CEMI
 	 * 
 	 * @return a copy of the raw frame on medium as byte array
 	 */
+	@Override
 	public final byte[] getPayload()
 	{
 		return raw.clone();
@@ -358,6 +360,7 @@ public class CEMIBusMon implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#getStructLength()
 	 */
+	@Override
 	public final int getStructLength()
 	{
 		return raw.length + 9;
@@ -366,6 +369,7 @@ public class CEMIBusMon implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#toByteArray()
 	 */
+	@Override
 	public byte[] toByteArray()
 	{
 		final byte stampLen = (byte) (tstampType == TYPEID_TIMESTAMP ? 2 : 4);
@@ -405,6 +409,7 @@ public class CEMIBusMon implements CEMI
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		final StringBuffer buf = new StringBuffer(30);

@@ -124,6 +124,7 @@ public class DPTXlatorDate extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
 	 */
+	@Override
 	public String[] getAllValues()
 	{
 		final String[] buf = new String[data.length / 3];
@@ -210,6 +211,7 @@ public class DPTXlatorDate extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#setData(byte[], int)
 	 */
+	@Override
 	public void setData(final byte[] data, final int offset)
 	{
 		if (offset < 0 || offset > data.length)
@@ -234,6 +236,7 @@ public class DPTXlatorDate extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
+	@Override
 	public Map<String, DPT> getSubTypes()
 	{
 		return types;
@@ -283,6 +286,7 @@ public class DPTXlatorDate extends DPTXlator
 		}
 	}
 
+	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException
 	{

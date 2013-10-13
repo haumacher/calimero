@@ -91,6 +91,7 @@ public class KNXnetIPDevMgmt extends ClientConnection
 	 * 
 	 * @param frame cEMI device management message of type {@link CEMIDevMgmt} to send
 	 */
+	@Override
 	public void send(final CEMI frame, final BlockingMode mode) throws KNXTimeoutException,
 		KNXConnectionClosedException
 	{
@@ -102,6 +103,7 @@ public class KNXnetIPDevMgmt extends ClientConnection
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#getName()
 	 */
+	@Override
 	public String getName()
 	{
 		return "KNXnet/IP DevMgmt " + super.getName();
@@ -112,6 +114,7 @@ public class KNXnetIPDevMgmt extends ClientConnection
 	 * (tuwien.auto.calimero.knxnetip.servicetype.KNXnetIPHeader, byte[], int,
 	 * java.net.InetAddress, int)
 	 */
+	@Override
 	protected boolean handleServiceType(final KNXnetIPHeader h, final byte[] data, final int offset,
 		final InetAddress src, final int port) throws KNXFormatException, IOException
 	{

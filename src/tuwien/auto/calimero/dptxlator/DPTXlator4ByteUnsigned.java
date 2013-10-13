@@ -109,6 +109,7 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
 	 */
+	@Override
 	public String getValue()
 	{
 		return makeString(0);
@@ -117,6 +118,7 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
 	 */
+	@Override
 	public String[] getAllValues()
 	{
 		final String[] s = new String[data.length / 4];
@@ -128,6 +130,7 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
+	@Override
 	public final Map<String, DPT> getSubTypes()
 	{
 		return types;
@@ -153,6 +156,7 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 		return appendUnit(Long.toString(fromDPT(index)));
 	}
 
+	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException
 	{

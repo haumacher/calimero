@@ -98,6 +98,7 @@ public abstract class RawFrameBase implements RawFrame
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.medium.RawFrame#getFrameType()
 	 */
+	@Override
 	public final int getFrameType()
 	{
 		return type;
@@ -189,6 +190,7 @@ public abstract class RawFrameBase implements RawFrame
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		final StringBuffer sb = new StringBuffer();

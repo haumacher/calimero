@@ -329,6 +329,7 @@ public class CEMIDevMgmt implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#getMessageCode()
 	 */
+	@Override
 	public final int getMessageCode()
 	{
 		return mc;
@@ -349,6 +350,7 @@ public class CEMIDevMgmt implements CEMI
 	 * 
 	 * @return a copy of the data part in the message structure as byte array
 	 */
+	@Override
 	public final byte[] getPayload()
 	{
 		return data.clone();
@@ -474,6 +476,7 @@ public class CEMIDevMgmt implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#getStructLength()
 	 */
+	@Override
 	public final int getStructLength()
 	{
 		return header + data.length;
@@ -482,6 +485,7 @@ public class CEMIDevMgmt implements CEMI
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.cemi.CEMI#toByteArray()
 	 */
+	@Override
 	public byte[] toByteArray()
 	{
 		final byte[] buf = new byte[header + data.length];
@@ -503,6 +507,7 @@ public class CEMIDevMgmt implements CEMI
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		final StringBuffer buf = new StringBuffer(30);

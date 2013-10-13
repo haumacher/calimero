@@ -85,6 +85,7 @@ public class LogService
 			start();
 		}
 
+		@Override
 		public void run()
 		{
 			try {
@@ -369,6 +370,7 @@ public class LogService
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return name + ", log level " + logLevel + ", " + writers.size() + " log writers";

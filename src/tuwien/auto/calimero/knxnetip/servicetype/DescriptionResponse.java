@@ -138,6 +138,7 @@ public class DescriptionResponse extends ServiceType
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
+	@Override
 	int getStructLength()
 	{
 		int len = device.getStructLength() + suppfam.getStructLength();
@@ -150,6 +151,7 @@ public class DescriptionResponse extends ServiceType
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
 	 *      (java.io.ByteArrayOutputStream)
 	 */
+	@Override
 	byte[] toByteArray(final ByteArrayOutputStream os)
 	{
 		byte[] buf = device.toByteArray();

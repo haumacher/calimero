@@ -96,6 +96,7 @@ public class TunnelCRD extends CRD
 	 * 
 	 * @return a string representation of the object
 	 */
+	@Override
 	public String toString()
 	{
 		return "tunneling CRD, assigned address " + getAssignedAddress();

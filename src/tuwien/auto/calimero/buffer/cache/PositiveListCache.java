@@ -140,6 +140,7 @@ public class PositiveListCache extends ExpiringCache
 	 * {@link #put(CacheObject)} is required for that object to apply the new timestamp
 	 * and keep the cache in a consistent state.
 	 */
+	@Override
 	public synchronized void put(final CacheObject obj)
 	{
 		if (posList.contains(obj.getKey())) {
@@ -155,6 +156,7 @@ public class PositiveListCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#get(java.lang.Object)
 	 */
+	@Override
 	public synchronized CacheObject get(final Object key)
 	{
 		final CacheObject o = map.get(key);
@@ -170,6 +172,7 @@ public class PositiveListCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#remove(java.lang.Object)
 	 */
+	@Override
 	public synchronized void remove(final Object key)
 	{
 		map.remove(key);
@@ -179,6 +182,7 @@ public class PositiveListCache extends ExpiringCache
 	 * {@inheritDoc}<br>
 	 * This does not affect the positive list.
 	 */
+	@Override
 	public synchronized void clear()
 	{
 		stopSweeper();
@@ -188,6 +192,7 @@ public class PositiveListCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#statistic()
 	 */
+	@Override
 	public synchronized Statistic statistic()
 	{
 		return new StatisticImpl(hits, misses);

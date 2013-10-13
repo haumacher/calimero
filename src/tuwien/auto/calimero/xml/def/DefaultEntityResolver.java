@@ -70,6 +70,7 @@ public class DefaultEntityResolver implements EntityResolver
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.xml.EntityResolver#resolveInput(java.lang.String)
 	 */
+	@Override
 	public InputStream resolveInput(final String systemID) throws KNXMLException
 	{
 		try {
@@ -89,6 +90,7 @@ public class DefaultEntityResolver implements EntityResolver
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.xml.EntityResolver#resolveOutput(java.lang.String)
 	 */
+	@Override
 	public OutputStream resolveOutput(final String systemID) throws KNXMLException
 	{
 		try {
@@ -108,6 +110,7 @@ public class DefaultEntityResolver implements EntityResolver
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.xml.EntityResolver#getInputReader(java.io.InputStream)
 	 */
+	@Override
 	public Reader getInputReader(final InputStream is) throws KNXMLException
 	{
 		InputStream in = null;

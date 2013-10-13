@@ -126,6 +126,7 @@ class SerialComAdapter extends LibraryAdapter
 		/* (non-Javadoc)
 		 * @see java.lang.Object#toString()
 		 */
+		@Override
 		public String toString()
 		{
 			return "read " + readInterval + " read total " + readTotalMultiplier + " constant "
@@ -192,6 +193,7 @@ class SerialComAdapter extends LibraryAdapter
 	 * Like CommConnection in Java ME
 	 * @see javax.microedition.io.CommConnection#setBaudRate(int)
 	 */
+	@Override
 	public final void setBaudRate(final int baudrate)
 	{
 		try {
@@ -206,6 +208,7 @@ class SerialComAdapter extends LibraryAdapter
 	 * Like CommConnection in Java ME
 	 * @see javax.microedition.io.CommConnection#getBaudRate()
 	 */
+	@Override
 	public final int getBaudRate()
 	{
 		try {
@@ -249,6 +252,7 @@ class SerialComAdapter extends LibraryAdapter
 
 	native int getControl(int control) throws IOException;
 
+	@Override
 	public InputStream getInputStream()
 	{
 		if (fd == INVALID_HANDLE)
@@ -257,6 +261,7 @@ class SerialComAdapter extends LibraryAdapter
 		return new PortInputStream(this);
 	}
 
+	@Override
 	public OutputStream getOutputStream()
 	{
 		if (fd == INVALID_HANDLE)
@@ -270,6 +275,7 @@ class SerialComAdapter extends LibraryAdapter
 	 * @see javax.microedition.io.Connection#close()
 	 */
 	// any open input/output stream accessing this port becomes unusable
+	@Override
 	public final void close() throws IOException
 	{
 		if (fd != INVALID_HANDLE)

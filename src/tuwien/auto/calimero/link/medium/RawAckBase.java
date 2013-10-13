@@ -53,6 +53,7 @@ public abstract class RawAckBase implements RawFrame
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.medium.RawFrame#getFrameType()
 	 */
+	@Override
 	public final int getFrameType()
 	{
 		return ACK_FRAME;
@@ -75,6 +76,7 @@ public abstract class RawAckBase implements RawFrame
 	 * 
 	 * @return string representation of the object
 	 */
+	@Override
 	public String toString()
 	{
 		return ack == ACK ? "ACK" : "NAK";

@@ -81,6 +81,7 @@ public class RoutingIndication extends ServiceType
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
+	@Override
 	int getStructLength()
 	{
 		return cemi.getStructLength();
@@ -90,6 +91,7 @@ public class RoutingIndication extends ServiceType
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
 	 *      (java.io.ByteArrayOutputStream)
 	 */
+	@Override
 	byte[] toByteArray(final ByteArrayOutputStream os)
 	{
 		final byte[] buf = cemi.toByteArray();

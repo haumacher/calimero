@@ -125,6 +125,7 @@ public class KNXnetIPTunnel extends ClientConnection
 	 * @param frame cEMI message to send, the expected cEMI type is according to the used
 	 *        tunneling layer
 	 */
+	@Override
 	public void send(final CEMI frame, final BlockingMode mode) throws KNXTimeoutException,
 		KNXConnectionClosedException
 	{
@@ -138,6 +139,7 @@ public class KNXnetIPTunnel extends ClientConnection
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#getName()
 	 */
+	@Override
 	public String getName()
 	{
 		return "KNXnet/IP Tunneling " + super.getName();
@@ -148,6 +150,7 @@ public class KNXnetIPTunnel extends ClientConnection
 	 * (tuwien.auto.calimero.knxnetip.servicetype.KNXnetIPHeader, byte[], int,
 	 * java.net.InetAddress, int)
 	 */
+	@Override
 	protected boolean handleServiceType(final KNXnetIPHeader h, final byte[] data, final int offset,
 		final InetAddress src, final int port) throws KNXFormatException, IOException
 	{

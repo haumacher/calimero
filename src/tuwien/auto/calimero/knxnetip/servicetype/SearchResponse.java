@@ -128,6 +128,7 @@ public class SearchResponse extends ServiceType
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
+	@Override
 	int getStructLength()
 	{
 		return endpt.getStructLength() + desc.getDevice().getStructLength()
@@ -138,6 +139,7 @@ public class SearchResponse extends ServiceType
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
 	 *      (java.io.ByteArrayOutputStream)
 	 */
+	@Override
 	byte[] toByteArray(final ByteArrayOutputStream os)
 	{
 		byte[] buf = endpt.toByteArray();

@@ -190,6 +190,7 @@ public class ConnectResponse extends ServiceType
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
+	@Override
 	int getStructLength()
 	{
 		int len = 2;
@@ -202,6 +203,7 @@ public class ConnectResponse extends ServiceType
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
 	 *      (java.io.ByteArrayOutputStream)
 	 */
+	@Override
 	byte[] toByteArray(final ByteArrayOutputStream os)
 	{
 		os.write(channelid);

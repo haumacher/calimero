@@ -58,6 +58,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 		QueueListenerImpl()
 		{}
 
+		@Override
 		public void queueFilled(final LDataObjectQueue queue)
 		{
 			if (userListener != null)
@@ -87,6 +88,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	 * @see tuwien.auto.calimero.buffer.Configuration.NetworkFilter#init
 	 * (tuwien.auto.calimero.buffer.Configuration)
 	 */
+	@Override
 	public void init(final Configuration c)
 	{}
 
@@ -156,6 +158,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	 * See {@link #getNextIndication()} for more details. In contrast to that method, this
 	 * method does not throw.
 	 */
+	@Override
 	public CEMILData request(final KNXAddress dst, final Configuration c)
 	{
 		if (!(dst instanceof GroupAddress))
@@ -196,6 +199,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	 * @param frame {@inheritDoc}
 	 * @param c {@inheritDoc}
 	 */
+	@Override
 	public void accept(final CEMI frame, final Configuration c)
 	{
 		final Cache cache = c.getCache();

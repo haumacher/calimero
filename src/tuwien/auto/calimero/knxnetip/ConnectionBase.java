@@ -145,6 +145,7 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#addConnectionListener
 	 * (tuwien.auto.calimero.KNXListener)
 	 */
+	@Override
 	public void addConnectionListener(final KNXListener l)
 	{
 		listeners.add(l);
@@ -154,6 +155,7 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#removeConnectionListener
 	 * (tuwien.auto.calimero.KNXListener)
 	 */
+	@Override
 	public void removeConnectionListener(final KNXListener l)
 	{
 		listeners.remove(l);
@@ -177,6 +179,7 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 	 * {@link KNXIllegalStateException}. In this mode, a user has to check the state (
 	 * {@link #getState()} on its own.
 	 */
+	@Override
 	public void send(final CEMI frame, final BlockingMode mode)
 		throws KNXTimeoutException, KNXConnectionClosedException
 	{
@@ -269,6 +272,7 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#getRemoteAddress()
 	 */
+	@Override
 	public final InetSocketAddress getRemoteAddress()
 	{
 		if (state == CLOSED)
@@ -276,11 +280,13 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 		return ctrlEndpt;
 	}
 
+	@Override
 	public final int getState()
 	{
 		return state;
 	}
 
+	@Override
 	public String getName()
 	{
 		// only the control endpoint is set when our logger is initialized (the data
@@ -292,6 +298,7 @@ public abstract class ConnectionBase implements KNXnetIPConnection
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.knxnetip.KNXnetIPConnection#close()
 	 */
+	@Override
 	public final void close()
 	{
 		close(CloseEvent.USER_REQUEST, "user request", LogLevel.INFO, null);

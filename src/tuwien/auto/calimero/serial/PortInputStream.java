@@ -46,6 +46,7 @@ class PortInputStream extends InputStream
 	/* (non-Javadoc)
 	 * @see java.io.InputStream#read()
 	 */
+	@Override
 	public int read() throws IOException
 	{
 		return p.read();
@@ -54,6 +55,7 @@ class PortInputStream extends InputStream
 	/* (non-Javadoc)
 	 * @see java.io.InputStream#read(byte[])
 	 */
+	@Override
 	public int read(final byte[] b) throws IOException
 	{
 		if (b == null)
@@ -64,6 +66,7 @@ class PortInputStream extends InputStream
 	/* (non-Javadoc)
 	 * @see java.io.InputStream#read(byte[], int, int)
 	 */
+	@Override
 	public int read(final byte[] b, final int off, final int len) throws IOException
 	{
 		if (b == null)
@@ -76,6 +79,7 @@ class PortInputStream extends InputStream
 	/* (non-Javadoc)
 	 * @see java.io.InputStream#available()
 	 */
+	@Override
 	public int available()
 	{
 		return p.getStatus(SerialComAdapter.AVAILABLE_INPUT_STATUS);
@@ -84,6 +88,7 @@ class PortInputStream extends InputStream
 	/* (non-Javadoc)
 	 * @see java.io.InputStream#close()
 	 */
+	@Override
 	public void close() throws IOException
 	{
 		super.close();

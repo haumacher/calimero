@@ -63,6 +63,7 @@ public class LFUCache extends ExpiringCache
 	 * new {@link #put(CacheObject)} is required for that object to apply the
 	 * timestamp and keep the cache in a consistent state.
 	 */
+	@Override
 	public synchronized void put(final CacheObject obj)
 	{
 		// ensure sweeping is on if we have expiring objects
@@ -80,6 +81,7 @@ public class LFUCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#get(java.lang.Object)
 	 */
+	@Override
 	public synchronized CacheObject get(final Object key)
 	{
 		final CacheObject o = map.get(key);
@@ -97,6 +99,7 @@ public class LFUCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#remove(java.lang.Object)
 	 */
+	@Override
 	public synchronized void remove(final Object key)
 	{
 		final Object o = map.remove(key);
@@ -107,6 +110,7 @@ public class LFUCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#clear()
 	 */
+	@Override
 	public synchronized void clear()
 	{
 		stopSweeper();
@@ -117,6 +121,7 @@ public class LFUCache extends ExpiringCache
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#statistic()
 	 */
+	@Override
 	public synchronized Statistic statistic()
 	{
 		return new StatisticImpl(hits, misses);
@@ -126,6 +131,7 @@ public class LFUCache extends ExpiringCache
 	 * @see tuwien.auto.calimero.buffer.cache.ExpiringCache#notifyRemoved(
 	 * tuwien.auto.calimero.buffer.cache.CacheObject)
 	 */
+	@Override
 	protected final void notifyRemoved(final CacheObject obj)
 	{
 		tree.remove(obj);
@@ -141,6 +147,7 @@ public class LFUCache extends ExpiringCache
 	private static class LFUObjectCompare implements Comparator<CacheObject>
 	{
 		LFUObjectCompare() {}
+		@Override
 		public int compare(final CacheObject o1, final CacheObject o2)
 		{
 			final CacheObject cmp1 = o1;

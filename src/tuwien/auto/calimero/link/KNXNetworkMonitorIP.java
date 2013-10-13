@@ -59,6 +59,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 			super(source, logger);
 		}
 
+		@Override
 		public void frameReceived(final FrameEvent e)
 		{
 			final int mc = e.getFrame().getMessageCode();
@@ -84,6 +85,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 						+ Integer.toHexString(mc));
 		}
 
+		@Override
 		public void connectionClosed(final CloseEvent e)
 		{
 			((KNXNetworkMonitorIP) source).closed = true;
@@ -149,6 +151,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setKNXMedium
 	 * (tuwien.auto.calimero.link.medium.KNXMediumSettings)
 	 */
+	@Override
 	public void setKNXMedium(final KNXMediumSettings settings)
 	{
 		if (settings == null)
@@ -162,6 +165,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#getKNXMedium()
 	 */
+	@Override
 	public KNXMediumSettings getKNXMedium()
 	{
 		return medium;
@@ -171,6 +175,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#addMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
+	@Override
 	public void addMonitorListener(final LinkListener l)
 	{
 		notifier.addListener(l);
@@ -180,6 +185,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#removeMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
+	@Override
 	public void removeMonitorListener(final LinkListener l)
 	{
 		notifier.removeListener(l);
@@ -188,6 +194,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setDecodeRawFrames(boolean)
 	 */
+	@Override
 	public void setDecodeRawFrames(final boolean decode)
 	{
 		notifier.decode = decode;
@@ -199,6 +206,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	 * The returned name is "monitor " + remote IP address of the control endpoint + ":" +
 	 * remote port used by the monitor.
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -207,6 +215,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#isOpen()
 	 */
+	@Override
 	public boolean isOpen()
 	{
 		return !closed;
@@ -215,6 +224,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#close()
 	 */
+	@Override
 	public void close()
 	{
 		synchronized (this) {
@@ -229,6 +239,7 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString()
 	{
 		return getName() + (closed ? " (closed), " : ", ") + medium.getMediumString()

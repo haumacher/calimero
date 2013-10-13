@@ -145,6 +145,7 @@ public class DPT
 	 * 
 	 * @return a string representation of the DPT
 	 */
+	@Override
 	public String toString()
 	{
 		final StringBuffer sb = new StringBuffer(30);
@@ -159,6 +160,7 @@ public class DPT
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(final Object obj)
 	{
 		return obj == this || obj instanceof DPT && ((DPT) obj).id.equals(id);
@@ -167,6 +169,7 @@ public class DPT
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode()
 	{
 		return id.hashCode();

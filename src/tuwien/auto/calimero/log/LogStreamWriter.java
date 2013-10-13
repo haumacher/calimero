@@ -175,6 +175,7 @@ public class LogStreamWriter extends LogWriter
 	 * @see tuwien.auto.calimero.log.LogWriter#write
 	 * (java.lang.String, tuwien.auto.calimero.log.LogLevel, java.lang.String)
 	 */
+	@Override
 	public void write(final String logService, final LogLevel level, final String msg)
 	{
 		doWrite(logService, level, msg, null);
@@ -185,6 +186,7 @@ public class LogStreamWriter extends LogWriter
 	 * (java.lang.String, tuwien.auto.calimero.log.LogLevel, java.lang.String,
 	 * java.lang.Throwable)
 	 */
+	@Override
 	public void write(final String logService, final LogLevel level, final String msg,
 		final Throwable t)
 	{
@@ -194,6 +196,7 @@ public class LogStreamWriter extends LogWriter
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.log.LogWriter#flush()
 	 */
+	@Override
 	public synchronized void flush()
 	{
 		if (out != null)
@@ -212,6 +215,7 @@ public class LogStreamWriter extends LogWriter
 	 * 
 	 * @see #LogStreamWriter(LogLevel, OutputStream, boolean, boolean)
 	 */
+	@Override
 	public synchronized void close()
 	{
 		if (out != null) {
