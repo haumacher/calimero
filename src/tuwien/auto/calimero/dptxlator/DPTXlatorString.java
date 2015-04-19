@@ -94,16 +94,9 @@ public class DPTXlatorString extends DPTXlator
 		data = new short[stringLength];
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[getItems()];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return getItems();
 	}
 
 	/* (non-Javadoc)
@@ -136,7 +129,8 @@ public class DPTXlatorString extends DPTXlator
 		return types;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected String fromDPT(final int index)
 	{
 		final int offset = index * stringLength;
 		final char[] output = new char[stringLength];
@@ -146,6 +140,11 @@ public class DPTXlatorString extends DPTXlator
 			++strlen;
 		}
 		return new String(output, 0, strlen);
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return (String) value;
 	}
 
 	private void toDPT(final byte[] buf, final int offset)

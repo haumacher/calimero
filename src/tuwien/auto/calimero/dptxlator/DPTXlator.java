@@ -148,9 +148,36 @@ public abstract class DPTXlator
 	 * 
 	 * @return an array of strings with values represented as strings
 	 * @see #getValue()
+	 * @see #getAllValuesObject()
 	 */
-	public abstract String[] getAllValues();
+	public final String[] getAllValues() 
+	{
+		final String[] buf = new String[getValueCnt()];
+		for (int i = 0; i < buf.length; ++i)
+			buf[i] = makeString(i);
+		return buf;
+	}
 
+	/**
+	 * Returns all translation items currently contained in this translator.
+	 * <p>
+	 * The items are ordered the same way handed to the translator in the first place
+	 * (FIFO, increasing byte index).
+	 * 
+	 * @return an array of values
+	 * @see #getAllValues()
+	 * @see #getValueObject()
+	 */
+	public final Object[] getAllValuesObject() 
+	{
+		final Object[] buf = new Object[getValueCnt()];
+		for (int i = 0; i < buf.length; ++i)
+			buf[i] = fromDPT(i);
+		return buf;
+	}
+
+	protected abstract int getValueCnt();
+	
 	/**
 	 * Translates the <code>value</code> according to the set datapoint ID.
 	 * <p>
@@ -164,12 +191,28 @@ public abstract class DPTXlator
 	 * @throws KNXFormatException if <code>value</code> can't be translated due to wrong
 	 *         formatted content, or if <code>value</code>doesn't fit into KNX data type
 	 */
-	public void setValue(final String value) throws KNXFormatException
+	public final void setValue(final String value) throws KNXFormatException
 	{
 		final short[] buf = new short[typeSize > 0 ? typeSize : 1];
 		toDPT(value, buf, 0);
 		data = buf;
 	}
+
+	/**
+	 * Returns the first value stored by this translator, according to the subtype ID.
+	 * 
+	 * @return a string representation of the value
+	 * @see #getType()
+	 */
+	public final Object getValueObject()
+	{
+		return fromDPT(0);
+	}
+	
+	/**
+	 * Extracts the raw value at the given index from the current data.
+	 */
+	protected abstract Object fromDPT(int index);
 
 	/**
 	 * Returns the first value stored by this translator formatted into a string,
@@ -181,11 +224,24 @@ public abstract class DPTXlator
 	 * @return a string representation of the value
 	 * @see #getType()
 	 */
-	public String getValue()
+	public final String getValue()
 	{
-		return getAllValues()[0];
+		return makeString(0);
 	}
 
+	/**
+	 * Converts the value at the given index to its string representation.
+	 */
+	protected final String makeString(int index) 
+	{
+		return appendUnit(toStringValue(index, fromDPT(index)));
+	}
+
+	/**
+	 * Converts a raw value to its string representation.
+	 */
+	protected abstract String toStringValue(int index, Object value);
+	
 	/**
 	 * See {@link #setData(byte[], int)}, with offset 0.
 	 * <p>

@@ -186,16 +186,9 @@ public class DPTXlator3BitControlled extends DPTXlator
 		setStepCode(stepcode);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length];
-		for (int i = 0; i < data.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length;
 	}
 
 	/**
@@ -352,16 +345,46 @@ public class DPTXlator3BitControlled extends DPTXlator
 		return (data[index] & 0x08) != 0 ? true : false;
 	}
 
-	private String fromDPT(final int index)
+	public static final class StepInfo {
+		
+		private final DPT _controlDPT;
+		private final boolean _control;
+		private final int _steps;
+
+		public StepInfo(DPT controlDPT, boolean control, int steps) {
+			_controlDPT = controlDPT;
+			_control = control;
+			_steps = steps;
+		}
+
+		@Override
+		public String toString() {
+			final StringBuffer sb = new StringBuffer();
+			String controlName = _control ? _controlDPT.getUpperValue() : _controlDPT.getLowerValue();
+			sb.append(controlName);
+			sb.append(' ');
+			if (_steps == 0) {
+				sb.append("break");
+			} else {
+				sb.append(_steps).append(" steps");
+			}
+			return sb.toString();
+		}
+	}
+	
+	@Override
+	protected StepInfo fromDPT(final int index)
 	{
-		final StringBuffer sb = new StringBuffer();
 		final DPT dptCtrl = ((DPT3BitControlled) dpt).getControlDPT();
-		sb.append(control(index) ? dptCtrl.getUpperValue() : dptCtrl.getLowerValue());
-		sb.append(' ');
+		boolean control = control(index);
 		final int steps = stepcode(index);
-		if (steps == 0)
-			return sb.append("break").toString();
-		return sb.append(steps).append(" steps").toString();
+		
+		return new StepInfo(dptCtrl, control, steps);
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return value.toString();
 	}
 
 	@Override

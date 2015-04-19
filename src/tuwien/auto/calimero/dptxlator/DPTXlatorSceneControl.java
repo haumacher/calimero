@@ -86,15 +86,6 @@ public class DPTXlatorSceneControl extends DPTXlator
 		data = new short[1];
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
-	 */
-	@Override
-	public String getValue()
-	{
-		return fromDPT(0);
-	}
-
 	/**
 	 * Sets one new translation item, replacing any old items.
 	 * <p>
@@ -119,16 +110,9 @@ public class DPTXlatorSceneControl extends DPTXlator
 		return (short) (data[0] & 0x3F);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] s = new String[data.length];
-		for (int i = 0; i < data.length; ++i)
-			s[i] = fromDPT(i);
-		return s;
+	protected int getValueCnt() {
+		return data.length;
 	}
 
 	/* (non-Javadoc)
@@ -149,12 +133,18 @@ public class DPTXlatorSceneControl extends DPTXlator
 		return types;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected String fromDPT(final int index)
 	{
 		final boolean c = (data[index] & 0x80) == 128;
 		final int scene = data[index] & 0x3F;
 		final String value = c ? dpt.getUpperValue() : dpt.getLowerValue();
 		return new StringTokenizer(value).nextToken() + " " + scene;
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return value.toString();
 	}
 
 	@Override

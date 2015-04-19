@@ -262,18 +262,6 @@ public class DPTXlator2ByteFloat extends DPTXlator
 	}
 
 	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
-	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length / 2];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = makeString(i);
-		return buf;
-	}
-
-	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
 	@Override
@@ -291,12 +279,18 @@ public class DPTXlator2ByteFloat extends DPTXlator
 		return types;
 	}
 
-	private String makeString(final int index)
-	{
-		return appendUnit(String.valueOf(fromDPT(index)));
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return String.valueOf(value);
 	}
 
-	private float fromDPT(final int index)
+	@Override
+	protected int getValueCnt() {
+		return data.length / 2;
+	}
+
+	@Override
+	protected Float fromDPT(final int index)
 	{
 		final int i = 2 * index;
 		// DPT bits high byte: MEEEEMMM, low byte: MMMMMMMM

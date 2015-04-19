@@ -262,27 +262,11 @@ public class DPTXlatorBoolean extends DPTXlator
 		return (data[0] & 0x01) != 0 ? true : false;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
-	 */
 	@Override
-	public String getValue()
-	{
-		return fromDPT(0);
+	protected int getValueCnt() {
+		return data.length;
 	}
-
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
-	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length];
-		for (int i = 0; i < data.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#setData(byte[], int)
 	 */
@@ -346,8 +330,16 @@ public class DPTXlatorBoolean extends DPTXlator
 				"value not recognized", value);
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected Boolean fromDPT(final int index)
 	{
-		return data[index] != 0 ? dpt.getUpperValue() : dpt.getLowerValue();
+		boolean result = data[index] != 0;
+		return Boolean.valueOf(result);
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		boolean booleanValue = ((Boolean) value).booleanValue();
+		return booleanValue? dpt.getUpperValue() : dpt.getLowerValue();
 	}
 }

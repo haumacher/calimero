@@ -241,16 +241,9 @@ public class DPTXlatorDateTime extends DPTXlator
 		data = new short[] { 0, 1, 1, 0, 0, 0, NO_WD | NO_DOW, 0 };
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length / 8];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length / 8;
 	}
 
 	/**
@@ -666,7 +659,8 @@ public class DPTXlatorDateTime extends DPTXlator
 		return false;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected String fromDPT(final int index)
 	{
 		if (isBitSet(index, FAULT))
 			return "corrupted date/time";
@@ -698,6 +692,11 @@ public class DPTXlatorDateTime extends DPTXlator
 		if (extFormat)
 			sb.append(isBitSetEx(index, QUALITY) ? ", in " : ", no ").append(SYNC_SIGN);
 		return sb.toString();
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return value.toString();
 	}
 
 	private long fromDPTMilliseconds(final int index) throws KNXFormatException

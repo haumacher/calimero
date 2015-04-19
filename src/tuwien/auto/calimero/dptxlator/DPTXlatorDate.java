@@ -121,16 +121,9 @@ public class DPTXlatorDate extends DPTXlator
 			sdf.applyPattern(pattern);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length / 3];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length / 3;
 	}
 
 	/**
@@ -205,7 +198,7 @@ public class DPTXlatorDate extends DPTXlator
 	 */
 	public final long getValueMilliseconds() throws KNXFormatException
 	{
-		return fromDPTMillis(0);
+		return fromDPTDate(0).getTime();
 	}
 
 	/* (non-Javadoc)
@@ -251,15 +244,18 @@ public class DPTXlatorDate extends DPTXlator
 		return types;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected Object fromDPT(final int index)
 	{
+		return fromDPTDate(index);
+	}
+
+	@Override
+	protected String toStringValue(int index, Object value) {
+		Date date = (Date) value;
 		if (sdf != null)
 			synchronized (DPTXlatorDate.class) {
-				try {
-					return sdf.format(new Date(fromDPTMillis(index)));
-				}
-				catch (final KNXFormatException e) {}
-				return "invalid date";
+				return sdf.format(date);
 			}
 		final int i = index * 3;
 		// return year-month-day
@@ -269,7 +265,7 @@ public class DPTXlatorDate extends DPTXlator
 			+ align(d) + d;
 	}
 
-	private long fromDPTMillis(final int index) throws KNXFormatException
+	private Date fromDPTDate(final int index)
 	{
 		synchronized (DPTXlatorDate.class) {
 			getCalendar().clear();
@@ -277,12 +273,7 @@ public class DPTXlatorDate extends DPTXlator
 			c.set(Calendar.DAY_OF_MONTH, data[i + DAY]);
 			c.set(Calendar.MONTH, data[i + MONTH] - 1);
 			c.set(Calendar.YEAR, absYear(data[i + YEAR]));
-			try {
-				return c.getTimeInMillis();
-			}
-			catch (final IllegalArgumentException e) {
-				throw new KNXFormatException(e.getMessage());
-			}
+			return c.getTime();
 		}
 	}
 

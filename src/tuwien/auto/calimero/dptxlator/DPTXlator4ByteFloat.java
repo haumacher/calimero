@@ -744,16 +744,9 @@ public class DPTXlator4ByteFloat extends DPTXlator
 		return fromDPT(0);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length / 4];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = makeString(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length / 4;
 	}
 
 	/* (non-Javadoc)
@@ -774,15 +767,18 @@ public class DPTXlator4ByteFloat extends DPTXlator
 		return types;
 	}
 
-	private String makeString(final int index)
-	{
-		final float f = fromDPT(index);
-		final String s = Math.abs(f) < 100000 ? String.valueOf(fromDPT(index))
-				: new DecimalFormat("0.#####E0").format(fromDPT(index));
-		return appendUnit(s);
+	@Override
+	protected String toStringValue(int index, Object value) {
+		float x = (Float) value;
+		if (Math.abs(x) < 100000) {
+			return String.valueOf(x);
+		} else {
+			return new DecimalFormat("0.#####E0").format(x);
+		}
 	}
 
-	private float fromDPT(final int index)
+	@Override
+	protected Float fromDPT(final int index)
 	{
 		final int i = 4 * index;
 		final int bits = (data[i] << 24) | (data[i + 1] << 16) | (data[i + 2] << 8) | data[i + 3];

@@ -131,16 +131,9 @@ public class DPTXlatorTime extends DPTXlator
 			sdf.applyPattern(pattern);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length / 3];
-		for (int i = 0; i < buf.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length / 3;
 	}
 
 	/**
@@ -280,7 +273,8 @@ public class DPTXlatorTime extends DPTXlator
 		return types;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected String fromDPT(final int index)
 	{
 		if (sdf != null)
 			synchronized (DPTXlatorTime.class) {
@@ -293,6 +287,11 @@ public class DPTXlatorTime extends DPTXlator
 		final int s = data[i + SECOND];
 		return DAYS[data[i + DOW] >> 5] + ", " + align(h) + h + ':' + align(m) + m + ':' + align(s)
 				+ s;
+	}
+	
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return value.toString();
 	}
 
 	private long fromDPTMillis(final int index)

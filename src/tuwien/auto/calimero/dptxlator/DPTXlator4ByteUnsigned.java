@@ -106,25 +106,9 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 		return fromDPT(0);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
-	 */
 	@Override
-	public String getValue()
-	{
-		return makeString(0);
-	}
-
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
-	@Override
-	public String[] getAllValues()
-	{
-		final String[] s = new String[data.length / 4];
-		for (int i = 0; i < s.length; ++i)
-			s[i] = makeString(i);
-		return s;
+	protected int getValueCnt() {
+		return data.length / 4;
 	}
 
 	/* (non-Javadoc)
@@ -145,17 +129,18 @@ public class DPTXlator4ByteUnsigned extends DPTXlator
 		return types;
 	}
 
-	private long fromDPT(final int index)
+	@Override
+	protected Long fromDPT(final int index)
 	{
 		final int i = 4 * index;
 		return (long) data[i] << 24 | data[i + 1] << 16 | data[i + 2] << 8 | data[i + 3];
 	}
 
-	private String makeString(final int index)
-	{
-		return appendUnit(Long.toString(fromDPT(index)));
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return Long.toString((Long) value);
 	}
-
+	
 	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException

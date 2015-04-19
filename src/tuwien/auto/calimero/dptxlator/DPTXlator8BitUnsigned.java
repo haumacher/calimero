@@ -124,15 +124,6 @@ public class DPTXlator8BitUnsigned extends DPTXlator
 		setSubType(dptID);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
-	 */
-	@Override
-	public String getValue()
-	{
-		return makeString(0);
-	}
-
 	/**
 	 * Sets one new translation item from a scaled unsigned value, replacing any old
 	 * items.
@@ -190,16 +181,9 @@ public class DPTXlator8BitUnsigned extends DPTXlator
 		return data[0];
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] s = new String[data.length];
-		for (int i = 0; i < data.length; ++i)
-			s[i] = makeString(i);
-		return s;
+	protected int getValueCnt() {
+		return data.length;
 	}
 
 	/* (non-Javadoc)
@@ -236,19 +220,27 @@ public class DPTXlator8BitUnsigned extends DPTXlator
 		data = new short[1];
 	}
 
-	private short fromDPT(final short data)
+	@Override
+	protected Object fromDPT(int index) {
+		return fromDPT(data[index]);
+	}
+	
+	private short fromDPT(final short value)
 	{
-		short value = data;
-		if (dpt.equals(DPT_SCALING))
-			value = (short) Math.round(data * 100.0f / 255);
-		else if (dpt.equals(DPT_ANGLE))
-			value = (short) Math.round(data * 360.0f / 255);
-		return value;
+		if (dpt.equals(DPT_SCALING)) {
+			return (short) Math.round(value * 100.0f / 255);
+		}
+		else if (dpt.equals(DPT_ANGLE)) {
+			return (short) Math.round(value * 360.0f / 255);
+		}
+		else {
+			return value;
+		}
 	}
 
-	private String makeString(final int index)
-	{
-		return appendUnit(Short.toString(fromDPT(data[index])));
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return Short.toString((Short) value);
 	}
 
 	@Override

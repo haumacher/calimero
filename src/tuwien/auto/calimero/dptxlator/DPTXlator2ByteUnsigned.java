@@ -173,15 +173,6 @@ public class DPTXlator2ByteUnsigned extends DPTXlator
 		data = new short[2];
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getValue()
-	 */
-	@Override
-	public String getValue()
-	{
-		return makeString(0);
-	}
-
 	/**
 	 * Sets the value of the first translation item.
 	 * <p>
@@ -223,16 +214,9 @@ public class DPTXlator2ByteUnsigned extends DPTXlator
 		return fromDPT(0);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] s = new String[data.length / 2];
-		for (int i = 0; i < s.length; ++i)
-			s[i] = makeString(i);
-		return s;
+	protected int getValueCnt() {
+		return data.length / 2;
 	}
 
 	/**
@@ -272,7 +256,8 @@ public class DPTXlator2ByteUnsigned extends DPTXlator
 		return types;
 	}
 
-	private int fromDPT(final int index)
+	@Override
+	protected Integer fromDPT(final int index)
 	{
 		final int v = (data[2 * index] << 8) | data[2 * index + 1];
 		if (dpt.equals(DPT_TIMEPERIOD_10))
@@ -282,11 +267,11 @@ public class DPTXlator2ByteUnsigned extends DPTXlator
 		return v;
 	}
 
-	private String makeString(final int index)
-	{
-		return appendUnit(String.valueOf(fromDPT(index)));
+	@Override
+	protected String toStringValue(int index, Object value) {
+		return String.valueOf(value);
 	}
-
+	
 	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException

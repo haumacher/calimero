@@ -225,16 +225,9 @@ public class DPTXlator1BitControlled extends DPTXlator
 		setValueBit(value);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getAllValues()
-	 */
 	@Override
-	public String[] getAllValues()
-	{
-		final String[] buf = new String[data.length];
-		for (int i = 0; i < data.length; ++i)
-			buf[i] = fromDPT(i);
-		return buf;
+	protected int getValueCnt() {
+		return data.length;
 	}
 
 	/**
@@ -345,13 +338,24 @@ public class DPTXlator1BitControlled extends DPTXlator
 		return (data[index] & 0x02) != 0 ? true : false;
 	}
 
-	private String fromDPT(final int index)
+	@Override
+	protected Boolean fromDPT(final int index)
 	{
-		final String ctrl = control(index) ? "1 " : "0 ";
-		final DPT val = ((DPT1BitControlled) dpt).getValueDPT();
-		return ctrl + (value(index) ? val.getUpperValue() : val.getLowerValue());
+		boolean value = value(index);
+		return Boolean.valueOf(value);
 	}
 
+	@Override
+	protected String toStringValue(int index, Object value) {
+		final String ctrl = control(index) ? "1 " : "0 ";
+		boolean valueBoolean = ((Boolean) value).booleanValue();
+		
+		final DPT valueDPT = ((DPT1BitControlled) dpt).getValueDPT();
+		String valueName = valueBoolean ? valueDPT.getUpperValue() : valueDPT.getLowerValue();
+		
+		return ctrl + valueName;
+	}
+	
 	@Override
 	protected void toDPT(final String value, final short[] dst, final int index)
 		throws KNXFormatException
